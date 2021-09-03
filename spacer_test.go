@@ -78,6 +78,16 @@ func testSpacer(tb testing.TB) {
 			delimiter: '_',
 		},
 		{
+			test:      "1A2",
+			expect:    "1_a_2",
+			delimiter: '_',
+		},
+		{
+			test:      "1A2",
+			expect:    "1_a_2",
+			delimiter: '_',
+		},
+		{
 			test:      "DB_USER",
 			expect:    "DB_USER",
 			delimiter: '_',

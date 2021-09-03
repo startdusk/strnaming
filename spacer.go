@@ -85,7 +85,7 @@ func (c *Spacer) do(s string) string {
 	var prev byte
 	for i, sl := 0, len(s); i < sl; i++ {
 		cur := s[i]
-		curUpper, curLower := isUpper(cur), isLower(cur)
+		curUpper, curLower, curNum := isUpper(cur), isLower(cur), isNumber(cur)
 
 		if c.screaming && curLower {
 			cur = toUpper(cur)
@@ -94,10 +94,7 @@ func (c *Spacer) do(s string) string {
 		}
 
 		if next, ok := nextVal(i, s); ok {
-			curNum := isNumber(cur)
-			nextUpper := isUpper(next)
-			nextLower := isLower(next)
-			nextNum := isNumber(next)
+			nextUpper, nextLower, nextNum := isUpper(next), isLower(next), isNumber(next)
 			if (curUpper && (nextLower || nextNum)) || (curLower && (nextUpper || nextNum)) || (curNum && (nextUpper || nextLower)) {
 				if !c.containIgnore(prev) {
 					if curUpper && nextLower {
@@ -116,7 +113,7 @@ func (c *Spacer) do(s string) string {
 			}
 		}
 
-		if !curUpper && !curLower && !c.containIgnore(cur) {
+		if !curUpper && !curLower && !curNum && !c.containIgnore(cur) {
 			n.WriteByte(c.delimiter)
 		} else {
 			n.WriteByte(cur)
