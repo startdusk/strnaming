@@ -60,7 +60,7 @@ func (c *Camel) WithCache(k, v string) *Camel {
 		return c
 	}
 	if len(c.cache) == 0 {
-		c.cache = make(map[string]string, 0)
+		c.cache = make(map[string]string)
 	}
 	c.cache[k] = v
 	return c
