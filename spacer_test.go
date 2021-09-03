@@ -83,6 +83,47 @@ func testSpacer(tb testing.TB) {
 			delimiter: '_',
 			screaming: true,
 		},
+		{
+			test:      "AccountID",
+			expect:    "account-id",
+			delimiter: '-',
+		},
+		{
+			test:      "JSONStringify",
+			expect:    "json-stringify",
+			delimiter: '-',
+		},
+		{
+			test:      "MongoDB",
+			expect:    "mongo-db",
+			delimiter: '-',
+		},
+		{
+			test:      "MySQL",
+			expect:    "my-sql",
+			delimiter: '-',
+		},
+		{
+			test:      "SQLServer",
+			expect:    "sql-server",
+			delimiter: '-',
+		},
+		{
+			test:      "Many2Many",
+			expect:    "many-2-many",
+			delimiter: '-',
+		},
+		{
+			test:      "DB_USER",
+			expect:    "db-user",
+			delimiter: '-',
+		},
+		{
+			test:      "DB_USER",
+			expect:    "DB-USER",
+			delimiter: '-',
+			screaming: true,
+		},
 	}
 
 	for _, cc := range cases {
