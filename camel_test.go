@@ -1,21 +1,48 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2021 startdusk
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package strnaming
 
 import "testing"
 
-func TestToCamel(t *testing.T) {
-	testToCamel(t)
+func TestCamel(t *testing.T) {
+	testCamel(t)
 }
 
-func BenchmarkToCamel(b *testing.B) {
+func BenchmarkCamel(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		testToCamel(b)
+		testCamel(b)
 	}
 }
 
-func testToCamel(tb testing.TB) {
+func testCamel(tb testing.TB) {
 	cases := []struct {
-		test       string
-		expect     string
+		test    string
+		expect  string
+		cacheKV struct {
+			key, val string
+		}
 		lowerFirst bool
 		split      byte
 	}{
@@ -86,10 +113,31 @@ func testToCamel(tb testing.TB) {
 			expect:     "fooFzz",
 			lowerFirst: true,
 		},
+		{
+			test:       "account_id",
+			expect:     "accountId",
+			lowerFirst: true,
+		},
+		{
+			test:   "account_id",
+			expect: "accountID",
+			cacheKV: struct {
+				key string
+				val string
+			}{
+				key: "account_id",
+				val: "accountID",
+			},
+		},
 	}
 
 	for _, cc := range cases {
-		actual := ToCamel(cc.test).WithLowerFirst(cc.lowerFirst).WithSplit(cc.split).String()
+		actual := NewCamel().
+			WithLowerFirst(cc.lowerFirst).
+			WithSplit(cc.split).
+			WithCache(cc.cacheKV.key, cc.cacheKV.val).
+			Convert(cc.test)
+
 		if actual != cc.expect {
 			tb.Errorf("expect camel case %s, but got %s\n", cc.expect, actual)
 		}

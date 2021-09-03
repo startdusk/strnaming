@@ -27,7 +27,7 @@ func main() {
 		{
 			camel := strnaming.NewCamel()
 			for _, v := range args[1:] {
-				fmt.Fprintln(screen, camel.Do(v))
+				fmt.Fprintln(screen, camel.Convert(v))
 			}
 		}
 	}

@@ -1,45 +1,52 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2021 startdusk
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package strnaming
 
 import "strings"
 
-// ToCamel("abc_efg").String() // AbcEfg
-// ToCamel("abc_efg").WithLowerFirst(true).String() // abcEfg
-// camel := NewCamel()
-// for _, v := range []string{"abc_sa", "sdaf fsda", "sae.sdad"} {
-// 	   fmt.Println(camel.Do(v))
-// }
-
-// ascii a -> A
-const transNum = 'a' - 'A'
-
-// CamelRes defines a camel struct
-type CamelRes struct {
-	str        string
+// Camel defines a cameler
+type Camel struct {
 	lowerFirst bool
 	splits     []byte
+	cache      map[string]string
 }
 
-// NewCamel creates a CamelRes
-func NewCamel() *CamelRes {
-	return &CamelRes{}
-}
-
-// ToCamel wrapper string to camel struct
-func ToCamel(s string) *CamelRes {
-	return &CamelRes{
-		str: strings.TrimSpace(s),
-	}
+// NewCamel creates a camel struct
+func NewCamel() *Camel {
+	return &Camel{}
 }
 
 // WithLowerFirst set first char lower
-func (c *CamelRes) WithLowerFirst(b bool) *CamelRes {
+func (c *Camel) WithLowerFirst(b bool) *Camel {
 	c.lowerFirst = b
 	return c
 }
 
 // WithSplit set split char
-func (c *CamelRes) WithSplit(b byte) *CamelRes {
-	if b == 0 || c.contains(b) {
+func (c *Camel) WithSplit(b byte) *Camel {
+	if b == 0 || c.containSplit(b) {
 		return c
 	}
 
@@ -47,50 +54,64 @@ func (c *CamelRes) WithSplit(b byte) *CamelRes {
 	return c
 }
 
-// Do multi use
-func (c *CamelRes) Do(s string) string {
+// WithCache set cache
+func (c *Camel) WithCache(k, v string) *Camel {
+	if k == "" || v == "" {
+		return c
+	}
+	if len(c.cache) == 0 {
+		c.cache = make(map[string]string, 0)
+	}
+	c.cache[k] = v
+	return c
+}
+
+// Convert to camel string
+func (c *Camel) Convert(s string) string {
 	s = strings.TrimSpace(s)
 	if s == "" {
 		return s
 	}
 
-	strArr := []byte(s)
-	n := &strings.Builder{}
-	n.Grow(len(strArr))
+	if len(c.cache) > 0 {
+		if a, ok := c.cache[s]; ok {
+			return a
+		}
+	}
+
+	var b strings.Builder
+	b.Grow(len(s))
 	// set first char defualt upper
 	nextUpper := !c.lowerFirst
-	for _, v := range strArr {
-		isUpper := v >= 'A' && v <= 'Z'
-		isLower := v >= 'a' && v <= 'z'
+	for i, sl := 0, len(s); i < sl; i++ {
+		v := s[i]
+		curUpper, curLower := isUpper(v), isLower(v)
 
 		if nextUpper {
-			if isLower {
+			if curLower {
 				v = toUpper(v)
 			}
-		} else if n.Len() == 0 {
-			if isUpper {
+		} else if b.Len() == 0 {
+			if curUpper {
 				v = toLower(v)
 			}
 		}
 
-		if isUpper || isLower {
-			n.WriteByte(v)
+		if curUpper || curLower {
+			b.WriteByte(v)
 			nextUpper = false
-		} else if isNumberChar(v) {
-			n.WriteByte(v)
+		} else if isNumber(v) {
+			b.WriteByte(v)
 			nextUpper = true
-		} else if c.isSplitChar(v) && n.Len() != 0 {
+		} else if c.isSplitChar(v) && b.Len() != 0 {
 			nextUpper = true
 		}
 	}
-	return n.String()
+
+	return b.String()
 }
 
-func (c *CamelRes) String() string {
-	return c.Do(c.str)
-}
-
-func (c *CamelRes) isSplitChar(b byte) bool {
+func (c *Camel) isSplitChar(b byte) bool {
 	// set defualt split char '_' if not set any split char
 	if len(c.splits) == 0 {
 		c.splits = append(c.splits, '_')
@@ -103,23 +124,11 @@ func (c *CamelRes) isSplitChar(b byte) bool {
 	return false
 }
 
-func (c *CamelRes) contains(b byte) bool {
+func (c *Camel) containSplit(b byte) bool {
 	for _, v := range c.splits {
 		if v == b {
 			return true
 		}
 	}
 	return false
-}
-
-func toUpper(b byte) byte {
-	return b - transNum
-}
-
-func toLower(b byte) byte {
-	return b + transNum
-}
-
-func isNumberChar(b byte) bool {
-	return b >= '0' && b <= '9'
 }
