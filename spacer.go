@@ -10,13 +10,14 @@ import "strings"
 type Spacer struct {
 	delimiter byte
 	screaming bool
+	prefix    string
 	ignores   []byte
 	cache     map[string]string
 }
 
 // WithIgnore ignore special char eg $
 func (c *Spacer) WithIgnore(b byte) *Spacer {
-	if b == 0 || c.containIgnore(b) {
+	if b == 0 || c.containsIgnore(b) {
 		return c
 	}
 	c.ignores = append(c.ignores, b)
@@ -38,6 +39,15 @@ func (c *Spacer) WithCache(k, v string) *Spacer {
 		c.cache = make(map[string]string)
 	}
 	c.cache[k] = v
+	return c
+}
+
+// WithPrefix set prefix
+func (c *Spacer) WithPrefix(s string) *Spacer {
+	s = strings.TrimSpace(s)
+	if s != "" {
+		c.prefix = s
+	}
 	return c
 }
 
@@ -75,7 +85,7 @@ func (c *Spacer) do(s string) string {
 		}
 
 		next, ok := nextVal(i, s)
-		if !c.containIgnore(prev) && ok {
+		if !c.containsIgnore(prev) && ok {
 			nextUpper, nextLower, nextNum := isUpper(next), isLower(next), isNumber(next)
 			if (curUpper && (nextLower || nextNum)) || (curLower && (nextUpper || nextNum)) || (curNum && (nextUpper || nextLower)) {
 				if prevUpper && curUpper && nextLower {
@@ -91,7 +101,7 @@ func (c *Spacer) do(s string) string {
 			}
 		}
 
-		if !curUpper && !curLower && !curNum && !c.containIgnore(cur) {
+		if !curUpper && !curLower && !curNum && !c.containsIgnore(cur) {
 			n.WriteByte(c.delimiter)
 		} else {
 			n.WriteByte(cur)
@@ -99,10 +109,15 @@ func (c *Spacer) do(s string) string {
 		prev, prevUpper = cur, curUpper
 	}
 
-	return n.String()
+	res := n.String()
+	if c.prefix != "" {
+		return c.prefix + string(c.delimiter) + res
+	}
+
+	return res
 }
 
-func (c *Spacer) containIgnore(b byte) bool {
+func (c *Spacer) containsIgnore(b byte) bool {
 	if b == 0 || len(c.ignores) == 0 {
 		return false
 	}

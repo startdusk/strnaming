@@ -9,7 +9,8 @@ import "strings"
 // Camel defines a cameler
 type Camel struct {
 	lowerFirst bool
-	splits     []byte
+	prefix     string
+	delimiters []byte
 	cache      map[string]string
 }
 
@@ -24,13 +25,13 @@ func (c *Camel) WithLowerFirst(b bool) *Camel {
 	return c
 }
 
-// WithSplit set split char
-func (c *Camel) WithSplit(b byte) *Camel {
-	if b == 0 || c.containSplit(b) {
+// WithDelimiter set delimiter char
+func (c *Camel) WithDelimiter(b byte) *Camel {
+	if b == 0 || c.containsDelimiter(b) {
 		return c
 	}
 
-	c.splits = append(c.splits, b)
+	c.delimiters = append(c.delimiters, b)
 	return c
 }
 
@@ -43,6 +44,15 @@ func (c *Camel) WithCache(k, v string) *Camel {
 		c.cache = make(map[string]string)
 	}
 	c.cache[k] = v
+	return c
+}
+
+// WithPrefix set prefix
+func (c *Camel) WithPrefix(s string) *Camel {
+	s = strings.TrimSpace(s)
+	if s != "" {
+		c.prefix = s
+	}
 	return c
 }
 
@@ -83,20 +93,21 @@ func (c *Camel) Convert(s string) string {
 		} else if isNumber(v) {
 			b.WriteByte(v)
 			nextUpper = true
-		} else if c.isSplitChar(v) && b.Len() != 0 {
+		} else if c.isDelimiterChar(v) && b.Len() != 0 {
 			nextUpper = true
 		}
 	}
 
-	return b.String()
+	return c.prefix + b.String()
 }
 
-func (c *Camel) isSplitChar(b byte) bool {
-	// set defualt split char '_' if not set any split char
-	if len(c.splits) == 0 {
-		c.splits = append(c.splits, '_')
+func (c *Camel) isDelimiterChar(b byte) bool {
+	// set defualt delimiter char '_' if not set any delimiter char
+	if len(c.delimiters) == 0 {
+		c.delimiters = append(c.delimiters, snakeDelimiter)
 	}
-	for _, v := range c.splits {
+
+	for _, v := range c.delimiters {
 		if v == b {
 			return true
 		}
@@ -104,8 +115,8 @@ func (c *Camel) isSplitChar(b byte) bool {
 	return false
 }
 
-func (c *Camel) containSplit(b byte) bool {
-	for _, v := range c.splits {
+func (c *Camel) containsDelimiter(b byte) bool {
+	for _, v := range c.delimiters {
 		if v == b {
 			return true
 		}

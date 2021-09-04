@@ -7,6 +7,6 @@ package strnaming
 // NewKebab creates a kebaber
 func NewKebab() *Spacer {
 	return &Spacer{
-		delimiter: '-',
+		delimiter: kebabDelimiter,
 	}
 }

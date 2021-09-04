@@ -21,7 +21,8 @@ func testCamel(tb testing.TB) {
 		test       string
 		expect     string
 		lowerFirst bool
-		splits     []byte
+		delimiters []byte
+		prefix     string
 		cacheKV    struct {
 			key, val string
 		}
@@ -39,14 +40,14 @@ func testCamel(tb testing.TB) {
 			expect: "AbcDB",
 		},
 		{
-			test:   "DNV.abc",
-			expect: "DNVAbc",
-			splits: []byte{'.'},
+			test:       "DNV.abc",
+			expect:     "DNVAbc",
+			delimiters: []byte{'.'},
 		},
 		{
-			test:   "test_case",
-			expect: "TestCase",
-			splits: []byte{'_', '_'},
+			test:       "test_case",
+			expect:     "TestCase",
+			delimiters: []byte{'_', '_'},
 		},
 		{
 			test:   "many2many",
@@ -109,14 +110,26 @@ func testCamel(tb testing.TB) {
 				val: "accountID",
 			},
 		},
+		{
+			test:       "account_id",
+			expect:     "myaccountId",
+			lowerFirst: true,
+			prefix:     "my",
+		},
+		{
+			test:   "account_id",
+			expect: "myAccountId",
+			prefix: "my",
+		},
 	}
 
 	for _, cc := range cases {
 		camel := NewCamel()
 		camel.WithLowerFirst(cc.lowerFirst)
 		camel.WithCache(cc.cacheKV.key, cc.cacheKV.val)
-		for _, v := range cc.splits {
-			camel.WithSplit(v)
+		camel.WithPrefix(cc.prefix)
+		for _, v := range cc.delimiters {
+			camel.WithDelimiter(v)
 		}
 
 		actual := camel.Convert(cc.test)

@@ -7,6 +7,12 @@ package strnaming
 // ascii A -> a
 const transNum = 'a' - 'A'
 
+// snakeDelimiter for snake
+const snakeDelimiter = '_'
+
+// kebabDelimiter for kebab
+const kebabDelimiter = '-'
+
 func toUpper(b byte) byte {
 	return b - transNum
 }

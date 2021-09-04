@@ -7,6 +7,6 @@ package strnaming
 // NewSnake creates a snaker
 func NewSnake() *Spacer {
 	return &Spacer{
-		delimiter: '_',
+		delimiter: snakeDelimiter,
 	}
 }

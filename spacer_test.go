@@ -4,7 +4,9 @@
 
 package strnaming
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestSpacer(t *testing.T) {
 	testSpacer(t)
@@ -20,6 +22,7 @@ func testSpacer(tb testing.TB) {
 		expect    string
 		delimiter byte
 		screaming bool
+		prefix    string
 		ignores   []byte
 		cacheKV   struct {
 			key, val string
@@ -135,6 +138,18 @@ func testSpacer(tb testing.TB) {
 			delimiter: '-',
 		},
 		{
+			test:      "JSONData",
+			expect:    "user_json_data",
+			delimiter: '_',
+			prefix:    "user",
+		},
+		{
+			test:      "JSONData",
+			expect:    "user-json-data",
+			delimiter: '-',
+			prefix:    "user",
+		},
+		{
 			test:      "",
 			expect:    "",
 			delimiter: '-',
@@ -178,6 +193,7 @@ func testSpacer(tb testing.TB) {
 		}
 		spacer.WithScreaming(cc.screaming)
 		spacer.WithCache(cc.cacheKV.key, cc.cacheKV.val)
+		spacer.WithPrefix(cc.prefix)
 		for _, v := range cc.ignores {
 			spacer.WithIgnore(v)
 		}
