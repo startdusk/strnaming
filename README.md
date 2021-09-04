@@ -16,6 +16,8 @@ This will retrieve the library.
 
 ## Example
 
+### camelcase
+
 ```go
 package main
 
@@ -44,6 +46,22 @@ func main() {
 	camel.WithPrefix("My")
 	camel.WithLowerFirst(false)
 	fmt.Println(camel.Convert("user_name")) // MyUserName
+}
+
+```
+
+### snake
+
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/startdusk/strnaming"
+)
+
+func main() {
 	// snake
 	snake := strnaming.NewSnake()
 	fmt.Println(snake.Convert("SnakeKey")) // snake_key
@@ -60,7 +78,22 @@ func main() {
 	snake.WithPrefix("go")
 	snake.WithScreaming(false)
 	fmt.Println(snake.Convert("PageSize")) // go_page_size
+}
 
+```
+
+### kebab
+
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/startdusk/strnaming"
+)
+
+func main() {
 	// kebab
 	kebab := strnaming.NewKebab()
 	fmt.Println(kebab.Convert("KebabKey")) // kebab-key
