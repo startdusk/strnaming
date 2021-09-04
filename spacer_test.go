@@ -41,6 +41,9 @@ func testSpacer(tb testing.TB) {
 		delimiter byte
 		screaming bool
 		ignores   []byte
+		cacheKV   struct {
+			key, val string
+		}
 	}{
 		{
 			test:      "AccountID",
@@ -134,13 +137,69 @@ func testSpacer(tb testing.TB) {
 			delimiter: '-',
 			screaming: true,
 		},
+		{
+			test:      "DbUser",
+			expect:    "DB-USER",
+			delimiter: '-',
+			screaming: true,
+		},
+		{
+			test:      "ben_love@gmail.com",
+			expect:    "ben-love@gmail.com",
+			delimiter: '-',
+			ignores:   []byte{'@', '.'},
+		},
+		{
+			test:      "",
+			expect:    "",
+			delimiter: '-',
+		},
+		{
+			test:      "",
+			expect:    "",
+			delimiter: '-',
+			ignores:   []byte{0},
+		},
+		{
+			test:      "abcEFG",
+			expect:    "abc_efg",
+			delimiter: '_',
+			ignores:   []byte{'@', '@'},
+		},
+		{
+			test:      "",
+			expect:    "",
+			delimiter: '-',
+			cacheKV: struct {
+				key string
+				val string
+			}{
+				key: "",
+				val: "",
+			},
+		},
+		{
+			test:      "testCase",
+			expect:    "TESTCase",
+			delimiter: '_',
+			cacheKV: struct {
+				key string
+				val string
+			}{
+				key: "testCase",
+				val: "TESTCase",
+			},
+		},
 	}
 
 	for _, cc := range cases {
 		spacer := &Spacer{
 			delimiter: cc.delimiter,
-			screaming: cc.screaming,
-			ignores:   cc.ignores,
+		}
+		spacer.WithScreaming(cc.screaming)
+		spacer.WithCache(cc.cacheKV.key, cc.cacheKV.val)
+		for _, v := range cc.ignores {
+			spacer.WithIgnore(v)
 		}
 		actual := spacer.Convert(cc.test)
 		if actual != cc.expect {

@@ -1,7 +1,6 @@
 # strnaming
 
-[![Godoc Reference](https://godoc.org/github.com/startdusk/strnaming?status.svg)](https://godoc.org/github.com/startdusk/strnaming)
-[![Go Report Card](https://goreportcard.com/badge/github.com/startdusk/strnaming)](https://goreportcard.com/report/github.com/startdusk/strnaming)
+[![Godoc Reference](https://godoc.org/github.com/startdusk/strnaming?status.svg)](https://godoc.org/github.com/startdusk/strnaming)&nbsp;[![Go Report Card](https://goreportcard.com/badge/github.com/startdusk/strnaming)](https://goreportcard.com/report/github.com/startdusk/strnaming)&nbsp;![](https://img.shields.io/github/license/startdusk/strnaming)
 
 Reference from [https://github.com/iancoleman/strcase](https://github.com/iancoleman/strcase) and changed a lot.
 
@@ -71,3 +70,8 @@ func main() {
 
 
 ```
+
+## TODO
+
+- [ ] Add prefix for string
+- [ ] Cli for command line access

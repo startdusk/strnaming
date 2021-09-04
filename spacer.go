@@ -79,10 +79,11 @@ func (c *Spacer) do(s string) string {
 	}
 
 	var n strings.Builder
+	// Normally, most underscore named strings have 1 to 2 separators, so 2 is added here
 	n.Grow(len(s) + 2)
 
-	var prevUpper bool
 	var prev byte
+	var prevUpper bool
 	for i, sl := 0, len(s); i < sl; i++ {
 		cur := s[i]
 		curUpper, curLower, curNum := isUpper(cur), isLower(cur), isNumber(cur)
@@ -93,23 +94,20 @@ func (c *Spacer) do(s string) string {
 			cur = toLower(cur)
 		}
 
-		if next, ok := nextVal(i, s); ok {
+		next, ok := nextVal(i, s)
+		if !c.containIgnore(prev) && ok {
 			nextUpper, nextLower, nextNum := isUpper(next), isLower(next), isNumber(next)
 			if (curUpper && (nextLower || nextNum)) || (curLower && (nextUpper || nextNum)) || (curNum && (nextUpper || nextLower)) {
-				if !c.containIgnore(prev) {
-					if curUpper && nextLower {
-						if i > 0 && prevUpper {
-							n.WriteByte(c.delimiter)
-						}
-					}
-					n.WriteByte(cur)
-					if curLower || curNum || nextNum {
-						n.WriteByte(c.delimiter)
-					}
-
-					prev, prevUpper = cur, curUpper
-					continue
+				if prevUpper && curUpper && nextLower {
+					n.WriteByte(c.delimiter)
 				}
+				n.WriteByte(cur)
+				if curLower || curNum || nextNum {
+					n.WriteByte(c.delimiter)
+				}
+
+				prev, prevUpper = cur, curUpper
+				continue
 			}
 		}
 

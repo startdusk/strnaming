@@ -38,13 +38,13 @@ func BenchmarkCamel(b *testing.B) {
 
 func testCamel(tb testing.TB) {
 	cases := []struct {
-		test    string
-		expect  string
-		cacheKV struct {
+		test       string
+		expect     string
+		lowerFirst bool
+		splits     []byte
+		cacheKV    struct {
 			key, val string
 		}
-		lowerFirst bool
-		split      byte
 	}{
 		{
 			test:   "_abc_def",
@@ -61,12 +61,12 @@ func testCamel(tb testing.TB) {
 		{
 			test:   "DNV.abc",
 			expect: "DNVAbc",
-			split:  '.',
+			splits: []byte{'.'},
 		},
 		{
 			test:   "test_case",
 			expect: "TestCase",
-			split:  '_',
+			splits: []byte{'_', '_'},
 		},
 		{
 			test:   "many2many",
@@ -132,12 +132,14 @@ func testCamel(tb testing.TB) {
 	}
 
 	for _, cc := range cases {
-		actual := NewCamel().
-			WithLowerFirst(cc.lowerFirst).
-			WithSplit(cc.split).
-			WithCache(cc.cacheKV.key, cc.cacheKV.val).
-			Convert(cc.test)
+		camel := NewCamel()
+		camel.WithLowerFirst(cc.lowerFirst)
+		camel.WithCache(cc.cacheKV.key, cc.cacheKV.val)
+		for _, v := range cc.splits {
+			camel.WithSplit(v)
+		}
 
+		actual := camel.Convert(cc.test)
 		if actual != cc.expect {
 			tb.Errorf("expect camel case %s, but got %s\n", cc.expect, actual)
 		}
