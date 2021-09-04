@@ -26,20 +26,24 @@ import (
 )
 
 func main() {
-	// camel
+	// camelcase
 	camel := strnaming.NewCamel()
 	fmt.Println(camel.Convert("camelcase_key")) // CamelcaseKey
 
 	fmt.Println(camel.Convert("user_id")) // UserId
-	camel.WithLowerFirst(true)
-	fmt.Println(camel.Convert("user_id")) // userId
 
 	camel.WithDelimiter('-')
 	fmt.Println(camel.Convert("user-id")) // UserId
 
+	camel.WithLowerFirst(true)
+	fmt.Println(camel.Convert("user_id")) // userId
+
 	camel.WithCache("user_id", "UserID")
 	fmt.Println(camel.Convert("user_id")) // UserID
 
+	camel.WithPrefix("My")
+	camel.WithLowerFirst(false)
+	fmt.Println(camel.Convert("user_name")) // MyUserName
 	// snake
 	snake := strnaming.NewSnake()
 	fmt.Println(snake.Convert("SnakeKey")) // snake_key
@@ -52,6 +56,10 @@ func main() {
 
 	snake.WithCache("UserID", "userid")
 	fmt.Println(snake.Convert("UserID")) // userid
+
+	snake.WithPrefix("go")
+	snake.WithScreaming(false)
+	fmt.Println(snake.Convert("PageSize")) // go_page_size
 
 	// kebab
 	kebab := strnaming.NewKebab()
@@ -66,8 +74,11 @@ func main() {
 
 	kebab.WithCache("UserID", "User-Id")
 	fmt.Println(kebab.Convert("UserID")) // User-Id
-}
 
+	kebab.WithPrefix("go")
+	kebab.WithScreaming(false)
+	fmt.Println(kebab.Convert("PageSize")) // go-page-size
+}
 
 ```
 

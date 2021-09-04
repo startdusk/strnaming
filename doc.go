@@ -20,11 +20,20 @@ For example:
 		fmt.Println(camel.Convert("camelcase_key")) // CamelcaseKey
 	}
 
+set preifx
+	camel.WithPrefix("My")
+	fmt.Println(camel.Convert("user_id")) // MyUserId
+
 set first char lower
 
 	fmt.Println(camel.Convert("user_id")) // UserId
 	camel.WithLowerFirst(true)
 	fmt.Println(camel.Convert("user_id")) // userId
+
+set prefix
+
+	camel.WithPrefix("My")
+	fmt.Println(camel.Convert("user_name")) // MyUserName
 
 set customize delimiter
 
