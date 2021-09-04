@@ -26,9 +26,9 @@ set first char lower
 	camel.WithLowerFirst(true)
 	fmt.Println(camel.Convert("user_id")) // userId
 
-set customize split
+set customize delimiter
 
-	camel.WithSplit('-')
+	camel.WithDelimiter('-')
 	fmt.Println(camel.Convert("user-id")) // UserId
 
 set cache

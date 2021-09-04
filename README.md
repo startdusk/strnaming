@@ -34,7 +34,7 @@ func main() {
 	camel.WithLowerFirst(true)
 	fmt.Println(camel.Convert("user_id")) // userId
 
-	camel.WithSplit('-')
+	camel.WithDelimiter('-')
 	fmt.Println(camel.Convert("user-id")) // UserId
 
 	camel.WithCache("user_id", "UserID")
