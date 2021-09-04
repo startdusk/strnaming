@@ -1,12 +1,19 @@
 # strnaming
 
+[![Godoc Reference](https://godoc.org/github.com/startdusk/strnaming?status.svg)](https://godoc.org/github.com/startdusk/strnaming)
+[![Go Report Card](https://goreportcard.com/badge/github.com/startdusk/strnaming)](https://goreportcard.com/report/github.com/startdusk/strnaming)
+
 Reference from [https://github.com/iancoleman/strcase](https://github.com/iancoleman/strcase) and changed a lot.
 
 ## Install
 
+To start using strnaming, install Go and run `go get`:
+
 ```bash
-go get -u github.com/startdusk/strnaming
+$ go get -u github.com/startdusk/strnaming
 ```
+
+This will retrieve the library.
 
 ## Example
 
@@ -20,7 +27,7 @@ import (
 )
 
 func main() {
-	// camelcase
+	// camel
 	camel := strnaming.NewCamel()
 	fmt.Println(camel.Convert("camelcase_key")) // CamelcaseKey
 
@@ -61,7 +68,6 @@ func main() {
 	kebab.WithCache("UserID", "User-Id")
 	fmt.Println(kebab.Convert("UserID")) // User-Id
 }
-
 
 
 ```
