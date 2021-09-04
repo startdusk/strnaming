@@ -73,5 +73,5 @@ func main() {
 
 ## TODO
 
-- [ ] Add prefix for string
+- [x] Add prefix for string
 - [ ] Cli for command line access
