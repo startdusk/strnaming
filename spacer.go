@@ -101,7 +101,7 @@ func (c *Spacer) do(s string) string {
 			}
 		}
 
-		if !curUpper && !curLower && !curNum && !c.containsIgnore(cur) {
+		if !c.containsIgnore(cur) && !curUpper && !curLower && !curNum {
 			n.WriteByte(c.delimiter)
 		} else {
 			n.WriteByte(cur)
