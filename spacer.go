@@ -53,10 +53,6 @@ func (c *Spacer) WithPrefix(s string) *Spacer {
 
 // Convert to spacer string
 func (c *Spacer) Convert(s string) string {
-	return c.do(s)
-}
-
-func (c *Spacer) do(s string) string {
 	s = strings.TrimSpace(s)
 	if s == "" {
 		return s
@@ -67,6 +63,11 @@ func (c *Spacer) do(s string) string {
 			return a
 		}
 	}
+
+	return c.do(s)
+}
+
+func (c *Spacer) do(s string) string {
 
 	var n strings.Builder
 	// Normally, most underscore named strings have 1 to 2 separators, so 2 is added here

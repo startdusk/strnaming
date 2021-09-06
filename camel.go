@@ -69,9 +69,13 @@ func (c *Camel) Convert(s string) string {
 		}
 	}
 
+	return c.do(s)
+}
+
+func (c *Camel) do(s string) string {
 	var b strings.Builder
 	b.Grow(len(s))
-	// set first char defualt upper
+	// set first char default upper
 	nextUpper := !c.lowerFirst
 	for i, sl := 0, len(s); i < sl; i++ {
 		v := s[i]
@@ -102,7 +106,7 @@ func (c *Camel) Convert(s string) string {
 }
 
 func (c *Camel) isDelimiterChar(b byte) bool {
-	// set defualt delimiter char '_' if not set any delimiter char
+	// set default delimiter char '_' if not set any delimiter char
 	if len(c.delimiters) == 0 {
 		c.delimiters = append(c.delimiters, snakeDelimiter)
 	}
