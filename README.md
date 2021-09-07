@@ -4,7 +4,24 @@
 
 Reference from [https://github.com/iancoleman/strcase](https://github.com/iancoleman/strcase) and changed a lot.
 
-## Install
+## Contents
+
+- [strnaming](#strnaming)
+  - [Contents](#contents)
+  - [API Examples](#api-examples)
+    - [Install](#install)
+    - [Quick start](#quick-start)
+      - [camelcase](#camelcase)
+      - [snake](#snake)
+      - [kebab](#kebab)
+  - [CLI Examples](#cli-examples)
+    - [Install](#install-1)
+    - [Quick start](#quick-start-1)
+  - [TODO](#todo)
+
+## API Examples
+
+### Install
 
 To start using strnaming, install Go and run `go get`:
 
@@ -14,9 +31,9 @@ $ go get -u github.com/startdusk/strnaming
 
 This will retrieve the library.
 
-## Example
+### Quick start
 
-### camelcase
+#### camelcase
 
 ```go
 package main
@@ -50,7 +67,7 @@ func main() {
 
 ```
 
-### snake
+#### snake
 
 ```go
 package main
@@ -82,7 +99,7 @@ func main() {
 
 ```
 
-### kebab
+#### kebab
 
 ```go
 package main
@@ -115,7 +132,9 @@ func main() {
 
 ```
 
-## CLI
+## CLI Examples
+
+### Install
 
 To start using strnaming in command line, install Go and run `go get`:
 
@@ -123,12 +142,12 @@ To start using strnaming in command line, install Go and run `go get`:
 $ go get -u github.com/startdusk/strnaming/cmd/strnaming
 ```
 
-### CLI Example
+### Quick start
 
 convert json keys to camelcase key, eg:
 
 ```json
-// test.json
+// ./testdata/test.json
 {
   "test_url": "http://json-schema.org/draft-04/schema",
   "another_url": [
