@@ -115,8 +115,7 @@ func main() {
 	kebab := strnaming.NewKebab()
 	fmt.Println(kebab.Convert("KebabKey")) // kebab-key
 
-	kebab.WithIgnore('@')
-	kebab.WithIgnore('.')
+	kebab.WithIgnore('@', '.')
 	fmt.Println(kebab.Convert("ben_love@gmail.com")) // ben-love@gmail.com
 
 	kebab.WithScreaming(true)
