@@ -143,7 +143,7 @@ $ go get -u github.com/startdusk/strnaming/cmd/strnaming
 
 ### Quick start
 
-convert json keys to camelcase key, eg:
+convert json keys to camelcase keys, eg:
 
 ```json
 // ./testdata/test.json
