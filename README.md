@@ -115,7 +115,94 @@ func main() {
 
 ```
 
+## CLI
+
+To start using strnaming in command line, install Go and run `go get`:
+
+```bash
+$ go get -u github.com/startdusk/strnaming/cmd/strnaming
+```
+
+### CLI Example
+
+convert json keys to camelcase key, eg:
+
+```json
+// test.json
+{
+  "test_url": "http://json-schema.org/draft-04/schema",
+  "another_url": [
+    {
+      "sub_url": [
+        {
+          "for_lady": 1234,
+          "bba_media": "hahahaha"
+        }
+      ]
+    },
+    {
+      "sub_url2": [
+        {
+          "for_lady2": "ben",
+          "bba_media2": 2021,
+          "key_space": [
+            [
+              [
+                {
+                  "low_code": true
+                }
+              ]
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+command:
+
+```bash
+$ strnaming c -f=./testdata/test.json
+```
+
+output:
+
+```json
+{
+  "AnotherUrl": [
+    {
+      "SubUrl": [
+        {
+          "BbaMedia": "hahahaha",
+          "ForLady": 1234
+        }
+      ]
+    },
+    {
+      "SubUrl2": [
+        {
+          "BbaMedia2": 2021,
+          "ForLady2": "ben",
+          "KeySpace": [
+            [
+              [
+                {
+                  "LowCode": true
+                }
+              ]
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "TestUrl": "http://json-schema.org/draft-04/schema"
+}
+```
+
 ## TODO
 
 - [x] Add prefix for string
-- [ ] Cli for command line access
+- [x] Cli for command line access
