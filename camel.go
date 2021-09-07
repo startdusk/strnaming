@@ -20,84 +20,86 @@ func NewCamel() *Camel {
 }
 
 // WithLowerFirst set first char lower
-func (c *Camel) WithLowerFirst(b bool) *Camel {
-	c.lowerFirst = b
+func (c *Camel) WithLowerFirst(lowerFirst bool) *Camel {
+	c.lowerFirst = lowerFirst
 	return c
 }
 
 // WithDelimiter set delimiter char
-func (c *Camel) WithDelimiter(b byte) *Camel {
-	if b == 0 || c.containsDelimiter(b) {
-		return c
-	}
+func (c *Camel) WithDelimiter(delimiters ...byte) *Camel {
+	for _, delimiter := range delimiters {
+		if c.containsDelimiter(delimiter) {
+			continue
+		}
 
-	c.delimiters = append(c.delimiters, b)
+		c.delimiters = append(c.delimiters, delimiter)
+	}
 	return c
 }
 
 // WithCache set cache
-func (c *Camel) WithCache(k, v string) *Camel {
-	if k == "" || v == "" {
+func (c *Camel) WithCache(key, value string) *Camel {
+	if key == "" || value == "" {
 		return c
 	}
 	if len(c.cache) == 0 {
 		c.cache = make(map[string]string)
 	}
-	c.cache[k] = v
+	c.cache[key] = value
 	return c
 }
 
 // WithPrefix set prefix
-func (c *Camel) WithPrefix(s string) *Camel {
-	s = strings.TrimSpace(s)
-	if s != "" {
-		c.prefix = s
+func (c *Camel) WithPrefix(prefix string) *Camel {
+	prefix = strings.TrimSpace(prefix)
+	if prefix != "" {
+		c.prefix = prefix
 	}
 	return c
 }
 
 // Convert to camel string
-func (c *Camel) Convert(s string) string {
-	s = strings.TrimSpace(s)
-	if s == "" {
-		return s
+func (c *Camel) Convert(str string) string {
+	str = strings.TrimSpace(str)
+	if str == "" {
+		return str
 	}
 
 	if len(c.cache) > 0 {
-		if a, ok := c.cache[s]; ok {
+		if a, ok := c.cache[str]; ok {
 			return a
 		}
 	}
 
-	return c.do(s)
+	return c.do(str)
 }
 
-func (c *Camel) do(s string) string {
+func (c *Camel) do(str string) string {
 	var b strings.Builder
-	b.Grow(len(s))
+	b.Grow(len(str))
 	// set first char default upper
 	nextUpper := !c.lowerFirst
-	for i, sl := 0, len(s); i < sl; i++ {
-		v := s[i]
-		curUpper, curLower := isUpper(v), isLower(v)
+	for i, sl := 0, len(str); i < sl; i++ {
+		cur := str[i]
+		curUpper, curLower, curNum := isUpper(cur), isLower(cur), isNumber(cur)
 
 		if nextUpper {
 			if curLower {
-				v = toUpper(v)
+				cur = toUpper(cur)
 			}
 		} else if b.Len() == 0 {
 			if curUpper {
-				v = toLower(v)
+				cur = toLower(cur)
 			}
 		}
 
 		if curUpper || curLower {
-			b.WriteByte(v)
+			b.WriteByte(cur)
 			nextUpper = false
-		} else if isNumber(v) {
-			b.WriteByte(v)
+		} else if curNum {
+			b.WriteByte(cur)
 			nextUpper = true
-		} else if c.isDelimiterChar(v) && b.Len() != 0 {
+		} else if c.isDelimiterChar(cur) && b.Len() != 0 {
 			nextUpper = true
 		}
 	}
@@ -105,25 +107,19 @@ func (c *Camel) do(s string) string {
 	return c.prefix + b.String()
 }
 
-func (c *Camel) isDelimiterChar(b byte) bool {
+func (c *Camel) isDelimiterChar(delimiter byte) bool {
 	// set default delimiter char '_' if not set any delimiter char
 	if len(c.delimiters) == 0 {
 		c.delimiters = append(c.delimiters, snakeDelimiter)
 	}
 
-	for _, v := range c.delimiters {
-		if v == b {
-			return true
-		}
-	}
-	return false
+	return c.containsDelimiter(delimiter)
 }
 
-func (c *Camel) containsDelimiter(b byte) bool {
-	for _, v := range c.delimiters {
-		if v == b {
-			return true
-		}
+func (c *Camel) containsDelimiter(delimiter byte) bool {
+	if delimiter == 0 || len(c.delimiters) == 0 {
+		return false
 	}
-	return false
+
+	return strings.ContainsAny(string(delimiter), string(c.delimiters))
 }

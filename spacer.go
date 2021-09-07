@@ -16,67 +16,68 @@ type Spacer struct {
 }
 
 // WithIgnore ignore special char eg $
-func (c *Spacer) WithIgnore(b byte) *Spacer {
-	if b == 0 || c.containsIgnore(b) {
-		return c
+func (c *Spacer) WithIgnore(ignores ...byte) *Spacer {
+	for _, ignore := range ignores {
+		if c.containsIgnore(ignore) {
+			continue
+		}
+		c.ignores = append(c.ignores, ignore)
 	}
-	c.ignores = append(c.ignores, b)
 	return c
 }
 
 // WithScreaming convert all char for upper
-func (c *Spacer) WithScreaming(b bool) *Spacer {
-	c.screaming = b
+func (c *Spacer) WithScreaming(screaming bool) *Spacer {
+	c.screaming = screaming
 	return c
 }
 
 // WithCache set cache
-func (c *Spacer) WithCache(k, v string) *Spacer {
-	if k == "" || v == "" {
+func (c *Spacer) WithCache(key, value string) *Spacer {
+	if key == "" || value == "" {
 		return c
 	}
 	if len(c.cache) == 0 {
 		c.cache = make(map[string]string)
 	}
-	c.cache[k] = v
+	c.cache[key] = value
 	return c
 }
 
 // WithPrefix set prefix
-func (c *Spacer) WithPrefix(s string) *Spacer {
-	s = strings.TrimSpace(s)
-	if s != "" {
-		c.prefix = s
+func (c *Spacer) WithPrefix(prefix string) *Spacer {
+	prefix = strings.TrimSpace(prefix)
+	if prefix != "" {
+		c.prefix = prefix
 	}
 	return c
 }
 
 // Convert to spacer string
-func (c *Spacer) Convert(s string) string {
-	s = strings.TrimSpace(s)
-	if s == "" {
-		return s
+func (c *Spacer) Convert(str string) string {
+	str = strings.TrimSpace(str)
+	if str == "" {
+		return str
 	}
 
 	if len(c.cache) > 0 {
-		if a, ok := c.cache[s]; ok {
+		if a, ok := c.cache[str]; ok {
 			return a
 		}
 	}
 
-	return c.do(s)
+	return c.do(str)
 }
 
-func (c *Spacer) do(s string) string {
-
+func (c *Spacer) do(str string) string {
 	var n strings.Builder
 	// Normally, most underscore named strings have 1 to 2 separators, so 2 is added here
-	n.Grow(len(s) + 2)
+	n.Grow(len(str) + 2)
 
 	var prev byte
 	var prevUpper bool
-	for i, sl := 0, len(s); i < sl; i++ {
-		cur := s[i]
+	for i, sl := 0, len(str); i < sl; i++ {
+		cur := str[i]
 		curUpper, curLower, curNum := isUpper(cur), isLower(cur), isNumber(cur)
 
 		if c.screaming && curLower {
@@ -85,7 +86,7 @@ func (c *Spacer) do(s string) string {
 			cur = toLower(cur)
 		}
 
-		next, ok := nextVal(i, s)
+		next, ok := nextVal(i, str)
 		if !c.containsIgnore(prev) && ok {
 			nextUpper, nextLower, nextNum := isUpper(next), isLower(next), isNumber(next)
 			if (curUpper && (nextLower || nextNum)) || (curLower && (nextUpper || nextNum)) || (curNum && (nextUpper || nextLower)) {
@@ -118,18 +119,18 @@ func (c *Spacer) do(s string) string {
 	return res
 }
 
-func (c *Spacer) containsIgnore(b byte) bool {
-	if b == 0 || len(c.ignores) == 0 {
+func (c *Spacer) containsIgnore(ignore byte) bool {
+	if ignore == 0 || len(c.ignores) == 0 {
 		return false
 	}
-	return strings.ContainsAny(string(b), string(c.ignores))
+	return strings.ContainsAny(string(ignore), string(c.ignores))
 }
 
-func nextVal(i int, s string) (byte, bool) {
+func nextVal(index int, str string) (byte, bool) {
 	var b byte
-	next := i + 1
-	if next < len(s) {
-		b = s[next]
+	next := index + 1
+	if next < len(str) {
+		b = str[next]
 		return b, true
 	}
 	return b, false

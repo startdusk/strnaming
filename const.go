@@ -22,7 +22,7 @@ func toLower(b byte) byte {
 }
 
 func isNumber(b byte) bool {
-	return b >= '0' && b <= '9'
+	return '0' <= b && b <= '9'
 }
 
 func isUpper(b byte) bool {

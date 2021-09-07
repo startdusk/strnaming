@@ -121,18 +121,19 @@ func testCamel(tb testing.TB) {
 			expect: "myAccountId",
 			prefix: "my",
 		},
+		{
+			test:   "AccountID",
+			expect: "AccountID",
+		},
 	}
 
 	for _, cc := range cases {
-		camel := NewCamel()
-		camel.WithLowerFirst(cc.lowerFirst)
-		camel.WithCache(cc.cacheKV.key, cc.cacheKV.val)
-		camel.WithPrefix(cc.prefix)
-		for _, v := range cc.delimiters {
-			camel.WithDelimiter(v)
-		}
-
-		actual := camel.Convert(cc.test)
+		actual := NewCamel().
+			WithLowerFirst(cc.lowerFirst).
+			WithCache(cc.cacheKV.key, cc.cacheKV.val).
+			WithPrefix(cc.prefix).
+			WithDelimiter(cc.delimiters...).
+			Convert(cc.test)
 		if actual != cc.expect {
 			tb.Errorf("expect camel case %s, but got %s\n", cc.expect, actual)
 		}

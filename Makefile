@@ -1,17 +1,17 @@
 CLI_NAME=strnaming
 
-default: fmt-code vet-code test bench
+all: fmt vet test testrace
 
-build-cli: fmt-code vet-code test
+build-cli: all
 	@rm -rf $(CLI_NAME) &>/dev/null
 	@echo "build strnaming cli tool"
 	@go build ./cmd/...
 
-fmt-code:
+fmt:
 	@echo "fmt code..."
 	@go fmt ./...
 
-vet-code:
+vet:
 	@echo "vet code..."
 	@go vet ./...
 
@@ -22,3 +22,15 @@ test:
 bench:
 	@echo "run benchmark..."
 	@go test -bench=. -run=^$
+
+testrace:
+	@echo "run test race..."
+	@go test -race -cpu 1,4 -timeout 7m ./...
+
+.PHONY: \
+		fmt \
+		vet \
+		test \
+		bench \
+		testrace \
+		build-cli

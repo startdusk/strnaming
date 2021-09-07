@@ -191,13 +191,12 @@ func testSpacer(tb testing.TB) {
 		spacer := &Spacer{
 			delimiter: cc.delimiter,
 		}
-		spacer.WithScreaming(cc.screaming)
-		spacer.WithCache(cc.cacheKV.key, cc.cacheKV.val)
-		spacer.WithPrefix(cc.prefix)
-		for _, v := range cc.ignores {
-			spacer.WithIgnore(v)
-		}
-		actual := spacer.Convert(cc.test)
+		actual := spacer.WithScreaming(cc.screaming).
+			WithCache(cc.cacheKV.key, cc.cacheKV.val).
+			WithPrefix(cc.prefix).
+			WithIgnore(cc.ignores...).
+			Convert(cc.test)
+
 		if actual != cc.expect {
 			tb.Errorf("expect snake case %s, but got %s\n", cc.expect, actual)
 		}
