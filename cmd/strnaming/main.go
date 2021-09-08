@@ -266,7 +266,7 @@ var commands = []*cli.Command{
 func main() {
 	app := cli.NewApp()
 	app.Usage = "a cli tool to convert string name"
-	app.Version = fmt.Sprintf("%s %s/%s", "v0.3.0", runtime.GOOS, runtime.GOARCH)
+	app.Version = fmt.Sprintf("%s %s/%s", "v0.4.0", runtime.GOOS, runtime.GOARCH)
 	app.Commands = commands
 
 	// cli already print error messages
