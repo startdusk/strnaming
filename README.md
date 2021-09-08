@@ -118,7 +118,7 @@ func main() {
 	fmt.Println(kebab.Convert("ben_love@gmail.com")) // ben-love@gmail.com
 
 	kebab.WithScreaming(true)
-	fmt.Println(kebab.Convert("KebabKey")) // KEBAB_KEY
+	fmt.Println(kebab.Convert("KebabKey")) // KEBAB-KEY
 
 	kebab.WithCache("UserID", "User-Id")
 	fmt.Println(kebab.Convert("UserID")) // User-Id
