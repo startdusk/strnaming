@@ -43,6 +43,7 @@ import (
 	"fmt"
 
 	"github.com/startdusk/strnaming"
+	"github.com/startdusk/strnaming/codes"
 )
 
 func main() {
