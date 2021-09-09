@@ -17,9 +17,9 @@ import (
 
 var commands = []*cli.Command{
 	{
-		Name:    "camelcase",
+		Name:    "camel",
 		Aliases: []string{"c"},
-		Usage:   "convert to camelcase string",
+		Usage:   "convert to camel string",
 		Flags: []cli.Flag{
 			&cli.PathFlag{
 				Name:    "file",
@@ -51,7 +51,7 @@ var commands = []*cli.Command{
 			},
 			&cli.StringSliceFlag{
 				Name:    "cache",
-				Usage:   "using cache",
+				Usage:   `using cache (eg: -c="user_id" -c="UserID")`,
 				Aliases: []string{"c"},
 			},
 			&cli.StringFlag{

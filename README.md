@@ -17,6 +17,7 @@ Reference from [https://github.com/iancoleman/strcase](https://github.com/iancol
 	- [CLI Examples](#cli-examples)
 		- [Install](#install-1)
 		- [Quick start](#quick-start-1)
+		- [Help](#help)
 	- [TODO](#todo)
 
 ## API Examples
@@ -60,8 +61,13 @@ func main() {
 	camel.WithCache("user_id", "UserID")
 	fmt.Println(camel.Convert("user_id")) // UserID
 
+	camel.WithStyle(codes.Golang)
+	fmt.Println(camel.Convert("json_data")) // JSONData
+	fmt.Println(camel.Convert("http_test")) // HTTPTest
+
 	camel.WithPrefix("My")
-	fmt.Println(camel.Convert("user_name")) // MyUserName
+	camel.WithUpperFirst(false)
+	fmt.Println(camel.Convert("user_name")) // MyuserName
 }
 
 ```
@@ -220,8 +226,65 @@ output:
 }
 ```
 
+### Help
+
+using main command:
+
+```bash
+$ strnaming help
+```
+
+output eg:
+
+```bash
+NAME:
+   strnaming - a cli tool to convert string name
+
+USAGE:
+   strnaming [global options] command [command options] [arguments...]
+
+VERSION:
+   v0.4.0 linux/amd64
+
+COMMANDS:
+   camel, c  convert to camel string
+   snake, s  convert to snake string
+   kebab, k  convert to kabab string
+   help, h   Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --help, -h     show help (default: false)
+   --version, -v  print the version (default: false)
+```
+
+using sub command like camel:
+
+```bash
+$ strnaming c -help
+```
+
+output like:
+
+```bash
+NAME:
+   strnaming camel - convert to camel string
+
+USAGE:
+   strnaming camel [command options] [arguments...]
+
+OPTIONS:
+   --file value, -f value       input a json file path (eg: /path/to/strnaming.json)
+   --json value, -j value       input a json
+   --delimiter value, -d value  using custom delimiter (default: _)
+   --upperFirst, --uf           using first char upper (default: false)
+   --prefix value, -p value     using prefix
+   --cache value, -c value      using cache (eg: -c="user_id" -c="UserID")
+   --help, -h                   show help (default: false)
+```
+
 ## TODO
 
 - [x] Add prefix for string
 - [x] Cli for command line access
-- [ ] Support Golang language naming style
+- [x] Support Golang language naming style
+- [ ] Support Golang language naming style for cli tool
