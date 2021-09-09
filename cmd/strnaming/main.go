@@ -54,6 +54,11 @@ var commands = []*cli.Command{
 				Usage:   "using cache",
 				Aliases: []string{"c"},
 			},
+			&cli.StringFlag{
+				Name:    "style",
+				Usage:   "using code style (eg: go)",
+				Aliases: []string{"s"},
+			},
 		},
 		// strnaming c -d="._"  -j='{"abv.bbc":123, "as_ds":123, "user_id": "1233", "sub":{"tu_bi":123}}' -c="user_id" -c="UserID" -f=./testdata/test.json
 		Action: func(c *cli.Context) error {
@@ -63,6 +68,7 @@ var commands = []*cli.Command{
 			cacheSlice := c.StringSlice("cache")
 			jsonObj := strings.TrimSpace(c.String("json"))
 			filePath := strings.TrimSpace(c.String("file"))
+			// style := strings.TrimSpace(c.String("style"))
 
 			if len(cacheSlice)%2 != 0 {
 				return fmt.Errorf(`cache key value pairs should appear in pairs, eg: -c="user_id" -c="UserID"`)
@@ -71,6 +77,7 @@ var commands = []*cli.Command{
 				WithUpperFirst(upperFirst).
 				WithPrefix(prefix).
 				WithDelimiter([]byte(delimiter)...)
+				// WithStyle(codes.Golang)
 
 			for i, cl := 0, len(cacheSlice); i < cl; i += 2 {
 				camel.WithCache(cacheSlice[i], cacheSlice[i+1])

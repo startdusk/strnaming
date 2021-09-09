@@ -4,7 +4,11 @@
 
 package strnaming
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/startdusk/strnaming/codes"
+)
 
 func TestCamel(t *testing.T) {
 	testCamel(t)
@@ -21,6 +25,7 @@ func testCamel(tb testing.TB) {
 		test       string
 		expect     string
 		upperFirst bool
+		style      codes.Style
 		delimiters []byte
 		prefix     string
 		cacheKV    struct {
@@ -32,11 +37,11 @@ func testCamel(tb testing.TB) {
 			expect: "abcDef",
 		},
 		{
-			test:   "           ***_abc_def",
+			test:   "           _abc_def",
 			expect: "abcDef",
 		},
 		{
-			test:   "   ***_abc_DB_",
+			test:   "   _abc_DB_",
 			expect: "abcDB",
 		},
 		{
@@ -86,11 +91,11 @@ func testCamel(tb testing.TB) {
 			upperFirst: true,
 		},
 		{
-			test:   "__foo_ Fzz**",
+			test:   "__foo_Fzz",
 			expect: "fooFzz",
 		},
 		{
-			test:       "__foo_ Fzz**",
+			test:       "__foo_Fzz",
 			expect:     "FooFzz",
 			upperFirst: true,
 		},
@@ -125,6 +130,34 @@ func testCamel(tb testing.TB) {
 			test:   "AccountID",
 			expect: "accountID",
 		},
+		{
+			test:   "http_test",
+			expect: "httpTest",
+		},
+		{
+			test:       "http_test",
+			expect:     "HttpTest",
+			upperFirst: true,
+		},
+		{
+			test:   "http_test",
+			expect: "HTTPTest",
+			style:  codes.Golang,
+		},
+		{
+			test:   "oauth",
+			expect: "OAuth",
+			style:  codes.Golang,
+		},
+		{
+			test:   "oi_Auth",
+			expect: "oiAuth",
+		},
+		{
+			test:   "json_data",
+			expect: "JSONData",
+			style:  codes.Golang,
+		},
 	}
 
 	for _, cc := range cases {
@@ -133,9 +166,10 @@ func testCamel(tb testing.TB) {
 			WithCache(cc.cacheKV.key, cc.cacheKV.val).
 			WithPrefix(cc.prefix).
 			WithDelimiter(cc.delimiters...).
+			WithStyle(cc.style).
 			Convert(cc.test)
 		if actual != cc.expect {
-			tb.Errorf("expect camel case %s, but got %s\n", cc.expect, actual)
+			tb.Errorf("test camel case %s expect %s, but got %s\n", cc.test, cc.expect, actual)
 		}
 	}
 }

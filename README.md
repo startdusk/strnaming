@@ -226,4 +226,3 @@ output:
 
 - [x] Add prefix for string
 - [x] Cli for command line access
-- [ ] Support Golang language naming style

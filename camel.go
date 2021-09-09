@@ -4,11 +4,16 @@
 
 package strnaming
 
-import "strings"
+import (
+	"strings"
+
+	"github.com/startdusk/strnaming/codes"
+)
 
 // Camel defines a cameler
 type Camel struct {
 	upperFirst bool
+	style      codes.Style
 	prefix     string
 	delimiters []byte
 	cache      map[string]string
@@ -58,6 +63,12 @@ func (c *Camel) WithPrefix(prefix string) *Camel {
 	return c
 }
 
+// WithStyle using lang style
+func (c *Camel) WithStyle(style codes.Style) *Camel {
+	c.style = style
+	return c
+}
+
 // Convert to camel string
 func (c *Camel) Convert(str string) string {
 	str = strings.TrimSpace(str)
@@ -71,38 +82,57 @@ func (c *Camel) Convert(str string) string {
 		}
 	}
 
-	return c.do(str)
+	return c.do(str, func(elem string) string {
+		switch c.style {
+		case codes.Golang:
+			elem = codes.GolangNaming(elem)
+			// TODO: other language naming style...
+		}
+		return elem
+	})
 }
 
-func (c *Camel) do(str string) string {
+func (c *Camel) do(str string, styleFn func(string) string) string {
 	var b strings.Builder
 	b.Grow(len(str))
-	// first char will be lower
-	// upperFirst default false if not set true
-	nextUpper := c.upperFirst
-	for i, sl := 0, len(str); i < sl; i++ {
-		cur := str[i]
-		curUpper, curLower, curNum := isUpper(cur), isLower(cur), isNumber(cur)
 
-		if nextUpper {
-			if curLower {
+	for {
+		var word []byte
+		i, sl := 0, len(str)
+		for i < sl {
+			cur := str[i]
+			if c.isDelimiterChar(cur) {
+				break
+			}
+
+			curUpper, curLower, curNum := isUpper(cur), isLower(cur), isNumber(cur)
+			// special first char
+			if i == 0 && b.Len() == 0 {
+				if c.upperFirst {
+					if curLower {
+						cur = toUpper(cur)
+					}
+				} else if curUpper {
+					cur = toLower(cur)
+				}
+			} else if i == 0 && curLower {
 				cur = toUpper(cur)
 			}
-		} else if b.Len() == 0 {
-			if curUpper {
-				cur = toLower(cur)
+			word = append(word, cur)
+			if curNum {
+				break
 			}
+			i++
 		}
 
-		if curUpper || curLower {
-			b.WriteByte(cur)
-			nextUpper = false
-		} else if curNum {
-			b.WriteByte(cur)
-			nextUpper = true
-		} else if c.isDelimiterChar(cur) && b.Len() != 0 {
-			nextUpper = true
+		elem := string(word)
+		b.WriteString(styleFn(elem))
+
+		if i == len(str) {
+			break
 		}
+
+		str = str[i+1:]
 	}
 
 	return c.prefix + b.String()

@@ -13,7 +13,9 @@ func TestSpacer(t *testing.T) {
 }
 
 func BenchmarkSpacer(b *testing.B) {
-	testSpacer(b)
+	for i := 0; i < b.N; i++ {
+		testSpacer(b)
+	}
 }
 
 func testSpacer(tb testing.TB) {

@@ -70,9 +70,9 @@ func (c *Spacer) Convert(str string) string {
 }
 
 func (c *Spacer) do(str string) string {
-	var n strings.Builder
+	var b strings.Builder
 	// Normally, most underscore named strings have 1 to 2 separators, so 2 is added here
-	n.Grow(len(str) + 2)
+	b.Grow(len(str) + 2)
 
 	var prev byte
 	var prevUpper bool
@@ -91,11 +91,11 @@ func (c *Spacer) do(str string) string {
 			nextUpper, nextLower, nextNum := isUpper(next), isLower(next), isNumber(next)
 			if (curUpper && (nextLower || nextNum)) || (curLower && (nextUpper || nextNum)) || (curNum && (nextUpper || nextLower)) {
 				if prevUpper && curUpper && nextLower {
-					n.WriteByte(c.delimiter)
+					b.WriteByte(c.delimiter)
 				}
-				n.WriteByte(cur)
+				b.WriteByte(cur)
 				if curLower || curNum || nextNum {
-					n.WriteByte(c.delimiter)
+					b.WriteByte(c.delimiter)
 				}
 
 				prev, prevUpper = cur, curUpper
@@ -104,14 +104,14 @@ func (c *Spacer) do(str string) string {
 		}
 
 		if !c.containsIgnore(cur) && !curUpper && !curLower && !curNum {
-			n.WriteByte(c.delimiter)
+			b.WriteByte(c.delimiter)
 		} else {
-			n.WriteByte(cur)
+			b.WriteByte(cur)
 		}
 		prev, prevUpper = cur, curUpper
 	}
 
-	res := n.String()
+	res := b.String()
 	if c.prefix != "" {
 		return c.prefix + string(c.delimiter) + res
 	}
