@@ -264,7 +264,7 @@ using sub command like camel:
 $ strnaming c -help
 ```
 
-output like:
+output eg:
 
 ```bash
 NAME:
