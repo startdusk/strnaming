@@ -7,17 +7,17 @@ Reference from [https://github.com/iancoleman/strcase](https://github.com/iancol
 ## Contents
 
 - [strnaming](#strnaming)
-  - [Contents](#contents)
-  - [API Examples](#api-examples)
-    - [Install](#install)
-    - [Quick start](#quick-start)
-      - [camelCase](#camel)
-      - [snake_case](#snake)
-      - [kebab-case](#kebab)
-  - [CLI Examples](#cli-examples)
-    - [Install](#install-1)
-    - [Quick start](#quick-start-1)
-  - [TODO](#todo)
+	- [Contents](#contents)
+	- [API Examples](#api-examples)
+		- [Install](#install)
+		- [Quick start](#quick-start)
+			- [camel](#camel)
+			- [snake](#snake)
+			- [kebab](#kebab)
+	- [CLI Examples](#cli-examples)
+		- [Install](#install-1)
+		- [Quick start](#quick-start-1)
+	- [TODO](#todo)
 
 ## API Examples
 
@@ -148,37 +148,35 @@ convert json keys to camelcase keys, eg:
 // ./testdata/test.json
 
 {
-    "test_url": "http://json-schema.org/draft-04/schema",
-    "another_case": [
+  "test_url": "http://json-schema.org/draft-04/schema",
+  "another_case": [
+    {
+      "sub_case": [
         {
-	    "sub_case": [
-		{
-		    "for_ready": 1234,
-		    "bba_media": "hahahaha"
-		}
-	    ]
-	},
-	{
-	    "sub_url_two": [
-		{
-		    "for_ready_two": "ben",
-		    "bba_media_two": 2021,
-		    "key_space": [
-			[
-			    [
-				{
-				    "low_code": true
-				}
-			    ]
-			]
-		    ]
-		}
-	    ]
-	}
-    ]
+          "for_ready": 1234,
+          "bba_media": "hahahaha"
+        }
+      ]
+    },
+    {
+      "sub_url_two": [
+        {
+          "for_ready_two": "ben",
+          "bba_media_two": 2021,
+          "key_space": [
+            [
+              [
+                {
+                  "low_code": true
+                }
+              ]
+            ]
+          ]
+        }
+      ]
+    }
+  ]
 }
-
-
 ```
 
 command:
@@ -191,34 +189,34 @@ output:
 
 ```json
 {
-    "anotherCase": [
+  "anotherCase": [
+    {
+      "subCase": [
         {
-            "subCase": [
-                {
-                    "bbaMedia": "hahahaha",
-                    "forReady": 1234       
-                }
-            ]
-        },
-        {
-            "subUrlTwo": [
-                {
-                    "bbaMediaTwo": 2021,
-                    "forReadyTwo": "ben",
-                    "keySpace": [
-                        [
-                            [
-                                {
-                                    "lowCode": true
-                                }
-                            ]
-                        ]
-                    ]
-                }
-            ]
+          "bbaMedia": "hahahaha",
+          "forReady": 1234
         }
-    ],
-    "testUrl": "http://json-schema.org/draft-04/schema"
+      ]
+    },
+    {
+      "subUrlTwo": [
+        {
+          "bbaMediaTwo": 2021,
+          "forReadyTwo": "ben",
+          "keySpace": [
+            [
+              [
+                {
+                  "lowCode": true
+                }
+              ]
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "testUrl": "http://json-schema.org/draft-04/schema"
 }
 ```
 
@@ -226,3 +224,4 @@ output:
 
 - [x] Add prefix for string
 - [x] Cli for command line access
+- [ ] Support Golang language naming style
