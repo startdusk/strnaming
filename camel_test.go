@@ -20,7 +20,7 @@ func testCamel(tb testing.TB) {
 	cases := []struct {
 		test       string
 		expect     string
-		lowerFirst bool
+		upperFirst bool
 		delimiters []byte
 		prefix     string
 		cacheKV    struct {
@@ -29,52 +29,52 @@ func testCamel(tb testing.TB) {
 	}{
 		{
 			test:   "_abc_def",
-			expect: "AbcDef",
+			expect: "abcDef",
 		},
 		{
 			test:   "           ***_abc_def",
-			expect: "AbcDef",
+			expect: "abcDef",
 		},
 		{
 			test:   "   ***_abc_DB_",
-			expect: "AbcDB",
+			expect: "abcDB",
 		},
 		{
 			test:       "DNV.abc",
-			expect:     "DNVAbc",
+			expect:     "dNVAbc",
 			delimiters: []byte{'.'},
 		},
 		{
 			test:       "test_case",
-			expect:     "TestCase",
+			expect:     "testCase",
 			delimiters: []byte{'_', '_'},
 		},
 		{
 			test:   "many2many",
-			expect: "Many2Many",
+			expect: "many2Many",
 		},
 		{
 			test:   "department_id",
-			expect: "DepartmentId",
+			expect: "departmentId",
 		},
 		{
 			test:       "department_id",
-			expect:     "departmentId",
-			lowerFirst: true,
+			expect:     "DepartmentId",
+			upperFirst: true,
 		},
 		{
 			test:       "_Department_id",
-			expect:     "departmentId",
-			lowerFirst: true,
+			expect:     "DepartmentId",
+			upperFirst: true,
 		},
 		{
 			test:   "_Department_id",
-			expect: "DepartmentId",
+			expect: "departmentId",
 		},
 		{
 			test:       "__prod__",
-			expect:     "prod",
-			lowerFirst: true,
+			expect:     "Prod",
+			upperFirst: true,
 		},
 		{
 			test:   "",
@@ -82,22 +82,22 @@ func testCamel(tb testing.TB) {
 		},
 		{
 			test:       "Golang",
-			expect:     "golang",
-			lowerFirst: true,
+			expect:     "Golang",
+			upperFirst: true,
 		},
 		{
 			test:   "__foo_ Fzz**",
-			expect: "FooFzz",
+			expect: "fooFzz",
 		},
 		{
 			test:       "__foo_ Fzz**",
-			expect:     "fooFzz",
-			lowerFirst: true,
+			expect:     "FooFzz",
+			upperFirst: true,
 		},
 		{
 			test:       "account_id",
-			expect:     "accountId",
-			lowerFirst: true,
+			expect:     "AccountId",
+			upperFirst: true,
 		},
 		{
 			test:   "account_id",
@@ -112,24 +112,24 @@ func testCamel(tb testing.TB) {
 		},
 		{
 			test:       "account_id",
-			expect:     "myaccountId",
-			lowerFirst: true,
+			expect:     "myAccountId",
+			upperFirst: true,
 			prefix:     "my",
 		},
 		{
 			test:   "account_id",
-			expect: "myAccountId",
+			expect: "myaccountId",
 			prefix: "my",
 		},
 		{
 			test:   "AccountID",
-			expect: "AccountID",
+			expect: "accountID",
 		},
 	}
 
 	for _, cc := range cases {
 		actual := NewCamel().
-			WithLowerFirst(cc.lowerFirst).
+			WithUpperFirst(cc.upperFirst).
 			WithCache(cc.cacheKV.key, cc.cacheKV.val).
 			WithPrefix(cc.prefix).
 			WithDelimiter(cc.delimiters...).

@@ -8,7 +8,7 @@ import "strings"
 
 // Camel defines a cameler
 type Camel struct {
-	lowerFirst bool
+	upperFirst bool
 	prefix     string
 	delimiters []byte
 	cache      map[string]string
@@ -19,9 +19,9 @@ func NewCamel() *Camel {
 	return &Camel{}
 }
 
-// WithLowerFirst set first char lower
-func (c *Camel) WithLowerFirst(lowerFirst bool) *Camel {
-	c.lowerFirst = lowerFirst
+// WithUpperFirst set first char upper
+func (c *Camel) WithUpperFirst(upperFirst bool) *Camel {
+	c.upperFirst = upperFirst
 	return c
 }
 
@@ -77,8 +77,9 @@ func (c *Camel) Convert(str string) string {
 func (c *Camel) do(str string) string {
 	var b strings.Builder
 	b.Grow(len(str))
-	// set first char default upper
-	nextUpper := !c.lowerFirst
+	// first char will be lower
+	// upperFirst default false if not set true
+	nextUpper := c.upperFirst
 	for i, sl := 0, len(str); i < sl; i++ {
 		cur := str[i]
 		curUpper, curLower, curNum := isUpper(cur), isLower(cur), isNumber(cur)

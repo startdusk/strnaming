@@ -17,28 +17,28 @@ For example:
 	func main() {
 		// camel
 		camel := strnaming.NewCamel()
-		fmt.Println(camel.Convert("camelcase_key")) // CamelcaseKey
+		fmt.Println(camel.Convert("camelcase_key")) // camelcaseKey
 	}
 
 set preifx
 	camel.WithPrefix("My")
-	fmt.Println(camel.Convert("user_id")) // MyUserId
+	fmt.Println(camel.Convert("user_id")) // MyuserId
 
-set first char lower
+set first char upper
 
-	fmt.Println(camel.Convert("user_id")) // UserId
-	camel.WithLowerFirst(true)
 	fmt.Println(camel.Convert("user_id")) // userId
+	camel.WithUpperFirst(true)
+	fmt.Println(camel.Convert("user_id")) // UserId
 
 set prefix
 
 	camel.WithPrefix("My")
-	fmt.Println(camel.Convert("user_name")) // MyUserName
+	fmt.Println(camel.Convert("user_name")) // MyuserName
 
 set customize delimiter
 
 	camel.WithDelimiter('-')
-	fmt.Println(camel.Convert("user-id")) // UserId
+	fmt.Println(camel.Convert("user-id")) // userId
 
 set cache
 

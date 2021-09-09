@@ -11,9 +11,9 @@ Reference from [https://github.com/iancoleman/strcase](https://github.com/iancol
   - [API Examples](#api-examples)
     - [Install](#install)
     - [Quick start](#quick-start)
-      - [camelcase](#camelcase)
-      - [snake](#snake)
-      - [kebab](#kebab)
+      - [camelCase](#camel)
+      - [snake_case](#snake)
+      - [kebab-case](#kebab)
   - [CLI Examples](#cli-examples)
     - [Install](#install-1)
     - [Quick start](#quick-start-1)
@@ -33,7 +33,7 @@ This will retrieve the library.
 
 ### Quick start
 
-#### camelcase
+#### camel
 
 ```go
 package main
@@ -45,23 +45,22 @@ import (
 )
 
 func main() {
-	// camelcase
+	// camel case
 	camel := strnaming.NewCamel()
-	fmt.Println(camel.Convert("camelcase_key")) // CamelcaseKey
+	fmt.Println(camel.Convert("camelcase_key")) // camelcaseKey
 
-	fmt.Println(camel.Convert("user_id")) // UserId
+	fmt.Println(camel.Convert("user_id")) // userId
 
 	camel.WithDelimiter('-')
-	fmt.Println(camel.Convert("user-id")) // UserId
+	fmt.Println(camel.Convert("user-id")) // userId
 
-	camel.WithLowerFirst(true)
-	fmt.Println(camel.Convert("user_id")) // userId
+	camel.WithUpperFirst(true)
+	fmt.Println(camel.Convert("user_id")) // UserId
 
 	camel.WithCache("user_id", "UserID")
 	fmt.Println(camel.Convert("user_id")) // UserID
 
 	camel.WithPrefix("My")
-	camel.WithLowerFirst(false)
 	fmt.Println(camel.Convert("user_name")) // MyUserName
 }
 
@@ -79,7 +78,7 @@ import (
 )
 
 func main() {
-	// snake
+	// snake case
 	snake := strnaming.NewSnake()
 	fmt.Println(snake.Convert("SnakeKey")) // snake_key
 
@@ -111,7 +110,7 @@ import (
 )
 
 func main() {
-	// kebab
+	// kebab case
 	kebab := strnaming.NewKebab()
 	fmt.Println(kebab.Convert("KebabKey")) // kebab-key
 
@@ -119,7 +118,7 @@ func main() {
 	fmt.Println(kebab.Convert("ben_love@gmail.com")) // ben-love@gmail.com
 
 	kebab.WithScreaming(true)
-	fmt.Println(kebab.Convert("KebabKey")) // KEBAB_KEY
+	fmt.Println(kebab.Convert("KebabKey")) // KEBAB-KEY
 
 	kebab.WithCache("UserID", "User-Id")
 	fmt.Println(kebab.Convert("UserID")) // User-Id
@@ -147,36 +146,39 @@ convert json keys to camelcase keys, eg:
 
 ```json
 // ./testdata/test.json
+
 {
-  "test_url": "http://json-schema.org/draft-04/schema",
-  "another_url": [
-    {
-      "sub_url": [
+    "test_url": "http://json-schema.org/draft-04/schema",
+    "another_case": [
         {
-          "for_lady": 1234,
-          "bba_media": "hahahaha"
-        }
-      ]
-    },
-    {
-      "sub_url2": [
-        {
-          "for_lady2": "ben",
-          "bba_media2": 2021,
-          "key_space": [
-            [
-              [
-                {
-                  "low_code": true
-                }
-              ]
-            ]
-          ]
-        }
-      ]
-    }
-  ]
+	    "sub_case": [
+		{
+		    "for_ready": 1234,
+		    "bba_media": "hahahaha"
+		}
+	    ]
+	},
+	{
+	    "sub_url_two": [
+		{
+		    "for_ready_two": "ben",
+		    "bba_media_two": 2021,
+		    "key_space": [
+			[
+			    [
+				{
+				    "low_code": true
+				}
+			    ]
+			]
+		    ]
+		}
+	    ]
+	}
+    ]
 }
+
+
 ```
 
 command:
@@ -189,34 +191,34 @@ output:
 
 ```json
 {
-  "AnotherUrl": [
-    {
-      "SubUrl": [
+    "anotherCase": [
         {
-          "BbaMedia": "hahahaha",
-          "ForLady": 1234
-        }
-      ]
-    },
-    {
-      "SubUrl2": [
-        {
-          "BbaMedia2": 2021,
-          "ForLady2": "ben",
-          "KeySpace": [
-            [
-              [
+            "subCase": [
                 {
-                  "LowCode": true
+                    "bbaMedia": "hahahaha",
+                    "forReady": 1234       
                 }
-              ]
             ]
-          ]
+        },
+        {
+            "subUrlTwo": [
+                {
+                    "bbaMediaTwo": 2021,
+                    "forReadyTwo": "ben",
+                    "keySpace": [
+                        [
+                            [
+                                {
+                                    "lowCode": true
+                                }
+                            ]
+                        ]
+                    ]
+                }
+            ]
         }
-      ]
-    }
-  ],
-  "TestUrl": "http://json-schema.org/draft-04/schema"
+    ],
+    "testUrl": "http://json-schema.org/draft-04/schema"
 }
 ```
 

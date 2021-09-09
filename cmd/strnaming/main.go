@@ -38,9 +38,9 @@ var commands = []*cli.Command{
 				DefaultText: "_",
 			},
 			&cli.BoolFlag{
-				Name:        "lowerFirst",
-				Usage:       "using first char lower",
-				Aliases:     []string{"lf"},
+				Name:        "upperFirst",
+				Usage:       "using first char upper",
+				Aliases:     []string{"uf"},
 				DefaultText: "false",
 			},
 			&cli.StringFlag{
@@ -59,7 +59,7 @@ var commands = []*cli.Command{
 		Action: func(c *cli.Context) error {
 			delimiter := strings.TrimSpace(c.String("delimiter"))
 			prefix := strings.TrimSpace(c.String("prefix"))
-			lowerFirst := c.Bool("lowerFirst")
+			upperFirst := c.Bool("upperFirst")
 			cacheSlice := c.StringSlice("cache")
 			jsonObj := strings.TrimSpace(c.String("json"))
 			filePath := strings.TrimSpace(c.String("file"))
@@ -68,7 +68,7 @@ var commands = []*cli.Command{
 				return fmt.Errorf(`cache key value pairs should appear in pairs, eg: -c="user_id" -c="UserID"`)
 			}
 			camel := strnaming.NewCamel().
-				WithLowerFirst(lowerFirst).
+				WithUpperFirst(upperFirst).
 				WithPrefix(prefix).
 				WithDelimiter([]byte(delimiter)...)
 
@@ -266,7 +266,7 @@ var commands = []*cli.Command{
 func main() {
 	app := cli.NewApp()
 	app.Usage = "a cli tool to convert string name"
-	app.Version = fmt.Sprintf("%s %s/%s", "v0.3.0", runtime.GOOS, runtime.GOARCH)
+	app.Version = fmt.Sprintf("%s %s/%s", "v0.4.0", runtime.GOOS, runtime.GOARCH)
 	app.Commands = commands
 
 	// cli already print error messages
