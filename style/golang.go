@@ -1,8 +1,8 @@
-// Copyright (c) 2021 startdusk.  All rights reserved.
+// Copyright (c) 2021 startdusk. All rights reserved.
 // Use of this source code is governed by a MIT style
 // license that can be found in the LICENSE file.
 
-package codes
+package style
 
 import "strings"
 
@@ -60,13 +60,21 @@ var toCamelSpecial = map[string]string{
 	"oauth": "OAuth",
 }
 
-// GolangNaming golang naming style
-func GolangNaming(s string) string {
+// Golang implementations Style interface
+type Golang struct{}
+
+// NewGolang creates code style for golang
+func NewGolang() *Golang {
+	return &Golang{}
+}
+
+// Transformation transform to golang code style
+func (g Golang) Transformation(elem string) string {
 	// special case
-	if special, ok := toCamelSpecial[strings.ToLower(s)]; ok {
+	if special, ok := toCamelSpecial[strings.ToLower(elem)]; ok {
 		return special
-	} else if upper := strings.ToUpper(s); commonInitialisms[upper] {
+	} else if upper := strings.ToUpper(elem); commonInitialisms[upper] {
 		return upper
 	}
-	return s
+	return elem
 }

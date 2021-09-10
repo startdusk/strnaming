@@ -43,7 +43,7 @@ import (
 	"fmt"
 
 	"github.com/startdusk/strnaming"
-	"github.com/startdusk/strnaming/codes"
+	"github.com/startdusk/strnaming/style"
 )
 
 func main() {
@@ -62,7 +62,7 @@ func main() {
 	camel.WithCache("user_id", "UserID")
 	fmt.Println(camel.Convert("user_id")) // UserID
 
-	camel.WithStyle(codes.Golang)
+	camel.WithStyle(style.NewGolang())
 	fmt.Println(camel.Convert("json_data")) // JSONData
 	fmt.Println(camel.Convert("http_test")) // HTTPTest
 

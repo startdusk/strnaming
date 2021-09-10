@@ -1,4 +1,4 @@
-// Copyright (c) 2021 startdusk.  All rights reserved.
+// Copyright (c) 2021 startdusk. All rights reserved.
 // Use of this source code is governed by a MIT style
 // license that can be found in the LICENSE file.
 
@@ -7,7 +7,7 @@ package strnaming
 import (
 	"testing"
 
-	"github.com/startdusk/strnaming/codes"
+	"github.com/startdusk/strnaming/style"
 )
 
 func TestCamel(t *testing.T) {
@@ -25,7 +25,7 @@ func testCamel(tb testing.TB) {
 		test       string
 		expect     string
 		upperFirst bool
-		style      codes.Style
+		style      Style
 		delimiters []byte
 		prefix     string
 		cacheKV    struct {
@@ -142,12 +142,12 @@ func testCamel(tb testing.TB) {
 		{
 			test:   "http_test",
 			expect: "HTTPTest",
-			style:  codes.Golang,
+			style:  style.NewGolang(),
 		},
 		{
 			test:   "oauth",
 			expect: "OAuth",
-			style:  codes.Golang,
+			style:  style.NewGolang(),
 		},
 		{
 			test:   "oi_Auth",
@@ -156,7 +156,7 @@ func testCamel(tb testing.TB) {
 		{
 			test:   "json_data",
 			expect: "JSONData",
-			style:  codes.Golang,
+			style:  style.NewGolang(),
 		},
 	}
 

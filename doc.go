@@ -1,4 +1,4 @@
-// Copyright (c) 2021 startdusk.  All rights reserved.
+// Copyright (c) 2021 startdusk. All rights reserved.
 // Use of this source code is governed by a MIT style
 // license that can be found in the LICENSE file.
 
@@ -44,6 +44,24 @@ set cache
 
 	camel.WithCache("user_id", "UserID")
 	fmt.Println(camel.Convert("user_id")) // UserID
+
+set style
+	package main
+
+	import (
+		"fmt"
+
+		"github.com/startdusk/strnaming"
+		"github.com/startdusk/strnaming/style"
+	)
+
+	func main() {
+		// camel
+		camel := strnaming.NewCamel()
+		camel.WithStyle(style.NewGolang())
+		fmt.Println(camel.Convert("http_test")) // HTTPTest
+		fmt.Println(camel.Convert("json_data")) // JSONData
+	}
 
 */
 package strnaming

@@ -1,4 +1,4 @@
-// Copyright (c) 2021 startdusk.  All rights reserved.
+// Copyright (c) 2021 startdusk. All rights reserved.
 // Use of this source code is governed by a MIT style
 // license that can be found in the LICENSE file.
 
@@ -7,13 +7,14 @@ package strnaming
 import (
 	"strings"
 
-	"github.com/startdusk/strnaming/codes"
+	"github.com/startdusk/strnaming/style"
 )
 
 // Camel defines a cameler
 type Camel struct {
+	style Style
+
 	upperFirst bool
-	style      codes.Style
 	prefix     string
 	delimiters []byte
 	cache      map[string]string
@@ -21,7 +22,9 @@ type Camel struct {
 
 // NewCamel creates a camel struct
 func NewCamel() *Camel {
-	return &Camel{}
+	return &Camel{
+		style: style.NewDefault(),
+	}
 }
 
 // WithUpperFirst set first char upper
@@ -64,8 +67,10 @@ func (c *Camel) WithPrefix(prefix string) *Camel {
 }
 
 // WithStyle using lang style
-func (c *Camel) WithStyle(style codes.Style) *Camel {
-	c.style = style
+func (c *Camel) WithStyle(style Style) *Camel {
+	if style != nil {
+		c.style = style
+	}
 	return c
 }
 
@@ -82,17 +87,10 @@ func (c *Camel) Convert(str string) string {
 		}
 	}
 
-	return c.do(str, func(elem string) string {
-		switch c.style {
-		case codes.Golang:
-			elem = codes.GolangNaming(elem)
-			// TODO: other language naming style...
-		}
-		return elem
-	})
+	return c.do(str)
 }
 
-func (c *Camel) do(str string, styleFn func(string) string) string {
+func (c *Camel) do(str string) string {
 	var b strings.Builder
 	b.Grow(len(str))
 
@@ -125,8 +123,8 @@ func (c *Camel) do(str string, styleFn func(string) string) string {
 			i++
 		}
 
-		elem := string(word)
-		b.WriteString(styleFn(elem))
+		elem := c.style.Transformation(string(word))
+		b.WriteString(elem)
 
 		if i == len(str) {
 			break
