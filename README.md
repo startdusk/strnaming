@@ -7,18 +7,18 @@ Reference from [https://github.com/iancoleman/strcase](https://github.com/iancol
 ## Contents
 
 - [strnaming](#strnaming)
-	- [Contents](#contents)
-	- [API Examples](#api-examples)
-		- [Install](#install)
-		- [Quick start](#quick-start)
-			- [camel](#camel)
-			- [snake](#snake)
-			- [kebab](#kebab)
-	- [CLI Examples](#cli-examples)
-		- [Install](#install-1)
-		- [Quick start](#quick-start-1)
-		- [Help](#help)
-	- [TODO](#todo)
+  - [Contents](#contents)
+  - [API Examples](#api-examples)
+    - [Install](#install)
+    - [Quick start](#quick-start)
+      - [camel](#camel)
+      - [snake](#snake)
+      - [kebab](#kebab)
+  - [CLI Examples](#cli-examples)
+    - [Install](#install-1)
+    - [Quick start](#quick-start-1)
+    - [Help](#help)
+  - [TODO](#todo)
 
 ## API Examples
 
@@ -149,7 +149,7 @@ $ go get -u github.com/startdusk/strnaming/cmd/strnaming
 
 ### Quick start
 
-convert json keys to camelcase keys, eg:
+convert json keys to camelcase keys, like:
 
 ```json
 // ./testdata/test.json
@@ -235,7 +235,7 @@ using main command:
 $ strnaming help
 ```
 
-output eg:
+output:
 
 ```bash
 NAME:
@@ -264,7 +264,7 @@ using sub command like camel:
 $ strnaming c -help
 ```
 
-output eg:
+output:
 
 ```bash
 NAME:
