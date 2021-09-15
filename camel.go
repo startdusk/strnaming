@@ -12,8 +12,7 @@ import (
 
 // Camel defines a cameler
 type Camel struct {
-	style Style
-
+	style      Style
 	upperFirst bool
 	prefix     string
 	delimiters []byte
