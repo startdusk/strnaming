@@ -2,7 +2,7 @@
 
 [![Godoc Reference](https://godoc.org/github.com/startdusk/strnaming?status.svg)](https://godoc.org/github.com/startdusk/strnaming)&nbsp;[![Go Report Card](https://goreportcard.com/badge/github.com/startdusk/strnaming)](https://goreportcard.com/report/github.com/startdusk/strnaming)&nbsp;[![](https://img.shields.io/github/license/startdusk/strnaming)](https://github.com/startdusk/strnaming/blob/main/LICENSE)&nbsp;[![Goproxy.cn](https://goproxy.cn/stats/github.com/startdusk/strnaming/badges/download-count.svg)](https://goproxy.cn/stats/github.com/startdusk/strnaming/badges/download-count.svg)
 
-Reference from [https://github.com/iancoleman/strcase](https://github.com/iancoleman/strcase) and changed a lot.
+Package strnaming is used to Convert string to camelCase, snake_case, kebab-case.
 
 ## Contents
 
@@ -12,6 +12,7 @@ Reference from [https://github.com/iancoleman/strcase](https://github.com/iancol
     - [Install](#install)
     - [Quick start](#quick-start)
       - [camel](#camel)
+        - [using golang style](#using-golang-style)
       - [snake](#snake)
       - [kebab](#kebab)
   - [CLI Examples](#cli-examples)
@@ -62,15 +63,23 @@ func main() {
 	camel.WithCache("user_id", "UserID")
 	fmt.Println(camel.Convert("user_id")) // UserID
 
-	camel.WithStyle(style.NewGolang())
-	fmt.Println(camel.Convert("json_data")) // JSONData
-	fmt.Println(camel.Convert("http_test")) // HTTPTest
+	fmt.Println(camel.Convert("json_data")) // JsonData
+	fmt.Println(camel.Convert("http_test")) // HttpTest
 
 	camel.WithPrefix("My")
 	camel.WithUpperFirst(false)
 	fmt.Println(camel.Convert("user_name")) // MyuserName
 }
 
+```
+
+##### using golang style
+
+```go
+
+camel.WithStyle(style.NewGolang())
+fmt.Println(camel.Convert("json_data")) // JSONData
+fmt.Println(camel.Convert("http_test")) // HTTPTest
 ```
 
 #### snake
