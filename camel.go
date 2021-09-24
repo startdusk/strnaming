@@ -86,10 +86,10 @@ func (c *Camel) Convert(str string) string {
 		}
 	}
 
-	return c.do(str)
+	return c.convert(str)
 }
 
-func (c *Camel) do(str string) string {
+func (c *Camel) convert(str string) string {
 	var b strings.Builder
 	b.Grow(len(str))
 

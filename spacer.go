@@ -66,10 +66,10 @@ func (c *Spacer) Convert(str string) string {
 		}
 	}
 
-	return c.do(str)
+	return c.convert(str)
 }
 
-func (c *Spacer) do(str string) string {
+func (c *Spacer) convert(str string) string {
 	var b strings.Builder
 	// Normally, most underscore named strings have 1 to 2 separators, so 2 is added here
 	b.Grow(len(str) + 2)
