@@ -33,140 +33,140 @@ func testSpacer(tb testing.TB) {
 		{
 			test:      "AccountID",
 			expect:    "account_id",
-			delimiter: '_',
+			delimiter: snakeDelimiter,
 		},
 		{
 			test:      "JSONStringify",
 			expect:    "json_stringify",
-			delimiter: '_',
+			delimiter: snakeDelimiter,
 		},
 		{
 			test:      "MongoDB",
 			expect:    "mongo_db",
-			delimiter: '_',
+			delimiter: snakeDelimiter,
 		},
 		{
 			test:      "MySQL",
 			expect:    "my_sql",
-			delimiter: '_',
+			delimiter: snakeDelimiter,
 		},
 		{
 			test:      "SQLServer",
 			expect:    "sql_server",
-			delimiter: '_',
+			delimiter: snakeDelimiter,
 		},
 		{
 			test:      "Many2Many",
 			expect:    "many_2_many",
-			delimiter: '_',
+			delimiter: snakeDelimiter,
 		},
 		{
 			test:      "DB_USER",
 			expect:    "db_user",
-			delimiter: '_',
+			delimiter: snakeDelimiter,
 		},
 		{
 			test:      "1A2",
 			expect:    "1_a_2",
-			delimiter: '_',
+			delimiter: snakeDelimiter,
 		},
 		{
 			test:      "1A2",
 			expect:    "1_a_2",
-			delimiter: '_',
+			delimiter: snakeDelimiter,
 		},
 		{
 			test:      "DB_USER",
 			expect:    "DB_USER",
-			delimiter: '_',
+			delimiter: snakeDelimiter,
 			screaming: true,
 		},
 		{
 			test:      "AccountID",
 			expect:    "account-id",
-			delimiter: '-',
+			delimiter: kebabDelimiter,
 		},
 		{
 			test:      "JSONStringify",
 			expect:    "json-stringify",
-			delimiter: '-',
+			delimiter: kebabDelimiter,
 		},
 		{
 			test:      "MongoDB",
 			expect:    "mongo-db",
-			delimiter: '-',
+			delimiter: kebabDelimiter,
 		},
 		{
 			test:      "MySQL",
 			expect:    "my-sql",
-			delimiter: '-',
+			delimiter: kebabDelimiter,
 		},
 		{
 			test:      "SQLServer",
 			expect:    "sql-server",
-			delimiter: '-',
+			delimiter: kebabDelimiter,
 		},
 		{
 			test:      "Many2Many",
 			expect:    "many-2-many",
-			delimiter: '-',
+			delimiter: kebabDelimiter,
 		},
 		{
 			test:      "DB_USER",
 			expect:    "db-user",
-			delimiter: '-',
+			delimiter: kebabDelimiter,
 		},
 		{
 			test:      "DB_USER",
 			expect:    "DB-USER",
-			delimiter: '-',
+			delimiter: kebabDelimiter,
 			screaming: true,
 		},
 		{
 			test:      "DbUser",
 			expect:    "DB-USER",
-			delimiter: '-',
+			delimiter: kebabDelimiter,
 			screaming: true,
 		},
 		{
 			test:      "ben_love@gmail.com",
 			expect:    "ben-love@gmail.com",
-			delimiter: '-',
+			delimiter: kebabDelimiter,
 			ignores:   []byte{'@', '.'},
 		},
 		{
 			test:      "",
 			expect:    "",
-			delimiter: '-',
+			delimiter: kebabDelimiter,
 		},
 		{
 			test:      "JSONData",
 			expect:    "user_json_data",
-			delimiter: '_',
+			delimiter: snakeDelimiter,
 			prefix:    "user",
 		},
 		{
 			test:      "JSONData",
 			expect:    "user-json-data",
-			delimiter: '-',
+			delimiter: kebabDelimiter,
 			prefix:    "user",
 		},
 		{
 			test:      "",
 			expect:    "",
-			delimiter: '-',
+			delimiter: kebabDelimiter,
 			ignores:   []byte{0},
 		},
 		{
 			test:      "abcEFG",
 			expect:    "abc_efg",
-			delimiter: '_',
+			delimiter: snakeDelimiter,
 			ignores:   []byte{'@', '@'},
 		},
 		{
 			test:      "",
 			expect:    "",
-			delimiter: '-',
+			delimiter: kebabDelimiter,
 			cacheKV: struct {
 				key string
 				val string
@@ -178,7 +178,7 @@ func testSpacer(tb testing.TB) {
 		{
 			test:      "testCase",
 			expect:    "TESTCase",
-			delimiter: '_',
+			delimiter: snakeDelimiter,
 			cacheKV: struct {
 				key string
 				val string
@@ -200,7 +200,7 @@ func testSpacer(tb testing.TB) {
 			Convert(cc.test)
 
 		if actual != cc.expect {
-			tb.Errorf("expect snake case %s, but got %s\n", cc.expect, actual)
+			tb.Errorf("expect case %s, but got %s\n", cc.expect, actual)
 		}
 	}
 }
