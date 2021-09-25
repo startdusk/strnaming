@@ -86,8 +86,7 @@ func (c *Spacer) convert(str string) string {
 			cur = toLower(cur)
 		}
 
-		next, ok := nextVal(i, str)
-		if !c.containsIgnore(prev) && ok {
+		if next, ok := nextVal(i, str); ok && !c.containsIgnore(prev) {
 			nextUpper, nextLower, nextNum := isUpper(next), isLower(next), isNumber(next)
 			if (curUpper && (nextLower || nextNum)) || (curLower && (nextUpper || nextNum)) || (curNum && (nextUpper || nextLower)) {
 				if prevUpper && curUpper && nextLower {
