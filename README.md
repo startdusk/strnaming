@@ -1,6 +1,6 @@
 # strnaming
 
-[![Godoc Reference](https://godoc.org/github.com/startdusk/strnaming?status.svg)](https://godoc.org/github.com/startdusk/strnaming)&nbsp;[![Go Report Card](https://goreportcard.com/badge/github.com/startdusk/strnaming)](https://goreportcard.com/report/github.com/startdusk/strnaming)&nbsp;[![](https://img.shields.io/github/license/startdusk/strnaming)](https://github.com/startdusk/strnaming/blob/main/LICENSE)&nbsp;[![Goproxy.cn](https://goproxy.cn/stats/github.com/startdusk/strnaming/badges/download-count.svg)](https://goproxy.cn/stats/github.com/startdusk/strnaming/badges/download-count.svg)
+[![Godoc Reference](https://godoc.org/github.com/startdusk/strnaming?status.svg)](https://godoc.org/github.com/startdusk/strnaming)&nbsp;[![Go Report Card](https://goreportcard.com/badge/github.com/startdusk/strnaming)](https://goreportcard.com/report/github.com/startdusk/strnaming)&nbsp;[![](https://img.shields.io/github/license/startdusk/strnaming)](https://github.com/startdusk/strnaming/blob/main/LICENSE)&nbsp;[![Goproxy.cn](https://goproxy.cn/stats/github.com/startdusk/strnaming/badges/download-count.svg)](https://goproxy.cn/stats/github.com/startdusk/strnaming/badges/download-count.svg)&nbsp;[![Release](https://img.shields.io/github/release/startdusk/strnaming.svg?style=flat-square)](https://github.com/startdusk/strnaming/releases/latest)
 
 Package strnaming is used to Convert string to camelCase, snake_case, kebab-case.
 
