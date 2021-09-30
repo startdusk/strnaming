@@ -1,4 +1,4 @@
-name: strnaming
+name: Run Tests
 
 on:
   push:
