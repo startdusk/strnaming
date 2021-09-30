@@ -44,7 +44,6 @@ import (
 	"fmt"
 
 	"github.com/startdusk/strnaming"
-	"github.com/startdusk/strnaming/style"
 )
 
 func main() {
@@ -76,10 +75,25 @@ func main() {
 ##### using golang style
 
 ```go
+package main
 
-camel.WithStyle(style.NewGolang())
-fmt.Println(camel.Convert("json_data")) // JSONData
-fmt.Println(camel.Convert("http_test")) // HTTPTest
+import (
+	"fmt"
+
+	"github.com/startdusk/strnaming"
+	"github.com/startdusk/strnaming/style"
+)
+
+func main() {
+	camel := strnaming.NewCamel()
+	fmt.Println(camel.Convert("json_data")) // JsonData
+	fmt.Println(camel.Convert("http_test")) // HttpTest
+	
+	camel.WithStyle(style.NewGolang())
+	fmt.Println(camel.Convert("json_data")) // JSONData
+	fmt.Println(camel.Convert("http_test")) // HTTPTest
+}
+
 ```
 
 #### snake
