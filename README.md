@@ -1,6 +1,6 @@
 # strnaming
 
-[![Godoc Reference](https://godoc.org/github.com/startdusk/strnaming?status.svg)](https://godoc.org/github.com/startdusk/strnaming)&nbsp;[![Go Report Card](https://goreportcard.com/badge/github.com/startdusk/strnaming)](https://goreportcard.com/report/github.com/startdusk/strnaming)&nbsp;[![](https://img.shields.io/github/license/startdusk/strnaming)](https://github.com/startdusk/strnaming/blob/main/LICENSE)&nbsp;[![Goproxy.cn](https://goproxy.cn/stats/github.com/startdusk/strnaming/badges/download-count.svg)](https://goproxy.cn/stats/github.com/startdusk/strnaming/badges/download-count.svg)&nbsp;[![Release](https://img.shields.io/github/release/startdusk/strnaming.svg?style=flat-square)](https://github.com/startdusk/strnaming/releases/latest)
+[![Godoc Reference](https://godoc.org/github.com/startdusk/strnaming?status.svg)](https://godoc.org/github.com/startdusk/strnaming)&nbsp;[![Go Report Card](https://goreportcard.com/badge/github.com/startdusk/strnaming)](https://goreportcard.com/report/github.com/startdusk/strnaming)&nbsp;[![Build Status](https://github.com/startdusk/strnaming/workflows/Run%20Tests/badge.svg?branch=main)](https://github.com/startdusk/strnaming/actions?query=branch%3Amain)&nbsp;[![](https://img.shields.io/github/license/startdusk/strnaming)](https://github.com/startdusk/strnaming/blob/main/LICENSE)&nbsp;[![Release](https://img.shields.io/github/release/startdusk/strnaming.svg?style=flat-square)](https://github.com/startdusk/strnaming/releases/latest)&nbsp;[![Goproxy.cn](https://goproxy.cn/stats/github.com/startdusk/strnaming/badges/download-count.svg)](https://goproxy.cn/stats/github.com/startdusk/strnaming/badges/download-count.svg)
 
 Package strnaming is used to Convert string to camelCase, snake_case, kebab-case.
 
@@ -44,7 +44,6 @@ import (
 	"fmt"
 
 	"github.com/startdusk/strnaming"
-	"github.com/startdusk/strnaming/style"
 )
 
 func main() {
@@ -76,10 +75,25 @@ func main() {
 ##### using golang style
 
 ```go
+package main
 
-camel.WithStyle(style.NewGolang())
-fmt.Println(camel.Convert("json_data")) // JSONData
-fmt.Println(camel.Convert("http_test")) // HTTPTest
+import (
+	"fmt"
+
+	"github.com/startdusk/strnaming"
+	"github.com/startdusk/strnaming/style"
+)
+
+func main() {
+	camel := strnaming.NewCamel()
+	fmt.Println(camel.Convert("json_data")) // JsonData
+	fmt.Println(camel.Convert("http_test")) // HttpTest
+	
+	camel.WithStyle(style.NewGolang())
+	fmt.Println(camel.Convert("json_data")) // JSONData
+	fmt.Println(camel.Convert("http_test")) // HTTPTest
+}
+
 ```
 
 #### snake
