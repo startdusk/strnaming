@@ -136,9 +136,8 @@ func (c *Camel) convert(str string) string {
 }
 
 func (c *Camel) isDelimiterChar(delimiter byte) bool {
-	// set default delimiter char '_' if not set any delimiter char
 	if len(c.delimiters) == 0 {
-		c.delimiters = append(c.delimiters, snakeDelimiter)
+		c.delimiters = append(c.delimiters, '-', '_', ' ', '.')
 	}
 
 	return c.containsDelimiter(delimiter)
