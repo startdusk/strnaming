@@ -90,21 +90,21 @@ func (c *Camel) Convert(str string) string {
 }
 
 func (c *Camel) convert(str string) string {
-	var b strings.Builder
-	b.Grow(len(str))
+	var builder strings.Builder
+	builder.Grow(len(str))
 
 	for {
 		var word []byte
-		i, sl := 0, len(str)
-		for i < sl {
-			cur := str[i]
+		index, sl := 0, len(str)
+		for index < sl {
+			cur := str[index]
 			if c.isDelimiterChar(cur) {
 				break
 			}
 
 			curUpper, curLower, curNum := isUpper(cur), isLower(cur), isNumber(cur)
 			// special first char
-			if i == 0 && b.Len() == 0 {
+			if index == 0 && builder.Len() == 0 {
 				if c.upperFirst {
 					if curLower {
 						cur = toUpper(cur)
@@ -112,27 +112,27 @@ func (c *Camel) convert(str string) string {
 				} else if curUpper {
 					cur = toLower(cur)
 				}
-			} else if i == 0 && curLower {
+			} else if index == 0 && curLower {
 				cur = toUpper(cur)
 			}
 			word = append(word, cur)
 			if curNum {
 				break
 			}
-			i++
+			index++
 		}
 
 		elem := c.style.Transformation(string(word))
-		b.WriteString(elem)
+		builder.WriteString(elem)
 
-		if i == len(str) {
+		if index == len(str) {
 			break
 		}
 
-		str = str[i+1:]
+		str = str[index+1:]
 	}
 
-	return c.prefix + b.String()
+	return c.prefix + builder.String()
 }
 
 func (c *Camel) isDelimiterChar(delimiter byte) bool {
