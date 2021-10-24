@@ -70,14 +70,14 @@ func (c *Spacer) Convert(str string) string {
 }
 
 func (c *Spacer) convert(str string) string {
-	var b strings.Builder
+	var builder strings.Builder
 	// Normally, most underscore named strings have 1 to 2 separators, so 2 is added here
-	b.Grow(len(str) + 2)
+	builder.Grow(len(str) + 2)
 
 	var prev byte
 	var prevUpper bool
-	for i, sl := 0, len(str); i < sl; i++ {
-		cur := str[i]
+	for index, sl := 0, len(str); index < sl; index++ {
+		cur := str[index]
 		curUpper, curLower, curNum := isUpper(cur), isLower(cur), isNumber(cur)
 
 		if c.screaming && curLower {
@@ -86,15 +86,15 @@ func (c *Spacer) convert(str string) string {
 			cur = toLower(cur)
 		}
 
-		if next, ok := nextVal(i, str); ok && !c.containsIgnore(prev) {
+		if next, ok := nextVal(index, str); ok && !c.containsIgnore(prev) {
 			nextUpper, nextLower, nextNum := isUpper(next), isLower(next), isNumber(next)
 			if (curUpper && (nextLower || nextNum)) || (curLower && (nextUpper || nextNum)) || (curNum && (nextUpper || nextLower)) {
 				if prevUpper && curUpper && nextLower {
-					b.WriteByte(c.delimiter)
+					builder.WriteByte(c.delimiter)
 				}
-				b.WriteByte(cur)
+				builder.WriteByte(cur)
 				if curLower || curNum || nextNum {
-					b.WriteByte(c.delimiter)
+					builder.WriteByte(c.delimiter)
 				}
 
 				prev, prevUpper = cur, curUpper
@@ -103,14 +103,14 @@ func (c *Spacer) convert(str string) string {
 		}
 
 		if !c.containsIgnore(cur) && !curUpper && !curLower && !curNum {
-			b.WriteByte(c.delimiter)
+			builder.WriteByte(c.delimiter)
 		} else {
-			b.WriteByte(cur)
+			builder.WriteByte(cur)
 		}
 		prev, prevUpper = cur, curUpper
 	}
 
-	res := b.String()
+	res := builder.String()
 	if c.prefix != "" {
 		return c.prefix + string(c.delimiter) + res
 	}
